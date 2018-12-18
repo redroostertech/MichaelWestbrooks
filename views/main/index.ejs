@@ -36,32 +36,16 @@
                             </a>
                         </div>
                     </div>
-                    <!-- <nav class="side-navigation">
+                    <nav class="side-navigation">
                         <ul>
-                            <li class="current">
-                                <a href="#" class="contains-sub-menu">Demos</a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a href="index-mobile-application.html" class="contains-sub-menu">Mobile Application</a>
-                                        <ul class="sub-menu">
-                                            <li>
-                                                <a href="index-mobile-application.html">Original</a>
-                                            </li>
-                                            <li>
-                                                <a href="index-mobile-application-2.html">Variation 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="index-mobile-application-3.html">Variation 3</a>
-                                            </li>
-                                            <li>
-                                                <a href="index-mobile-application-one-page.html">One Page</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
+                            <li class="current" id="link-home"> <p>Home</p></li>
+                            <li class="current" id="link-about"><p>Bio</p></li>
+                            <li class="current" id="link-skills"><p>Skills</p></li>
+                            <li class="current" id="link-experience"><p>Experience</p></li>
+                            <li class="current" id="link-portfolio"><p>Works</p></li>
+                            <li class="current" id="link-thoughts"><p>Thoughts</p></li>
                         </ul>
-                    </nav> -->
+                    </nav>
                     <div class="side-navigation-footer">
                         <ul class="social-list list-horizontal">
                             <li><a href="https://www.linkedin.com/in/michaelwestbrooksii" target="_blank"><span class="icon-linkedin small"></span></a></li>
@@ -86,8 +70,8 @@
                             <div class="column width-12 nav-bar-inner">
                                 <div class="logo">
                                     <div class="logo-inner">
-                                        <a href="index.html"><img src="main/images/resume/logo-alt.jpg" alt="Michael Westbrooks II Logo" style="border-radius: 50%;" /></a>
-                                        <a href="index.html"><img src="main/images/resume/logo-alt.jpg" alt="Michael Westbrooks II Logo" style="border-radius: 50%;"/></a>
+                                        <!--<a href="index.html"><img src="main/images/resume/logo-alt.jpg" alt="Michael Westbrooks II Logo" style="border-radius: 50%;" /></a>
+                                        <a href="index.html"><img src="main/images/resume/logo-alt.jpg" alt="Michael Westbrooks II Logo" style="border-radius: 50%;"/></a>-->
                                     </div>
                                 </div>
                                 <nav class="navigation nav-block secondary-navigation nav-right">
@@ -645,8 +629,9 @@
                     <!-- Contact Modal -->
                     <div id="contact-lightbox" class="pt-70 pb-50 hide">
                         <div class="row">
-                            <div class="column width-12 left">
-                                <h2 class="mb-50">Say Hello!</h2>
+                            <div id="contact-modal" class="column width-12 left">
+                                <h2>Say Hello!</h2>
+                                <p class="mb-50" id="form-response-message"></p>
                                 <div class="contact-form-container no-margin-bottom">
                                     <form id="inquiry-form" name="inquiry-form" method="post">
                                         <div class="row">
@@ -664,7 +649,6 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div class="form-response center"></div>
                                 </div>
                             </div>
                         </div>
@@ -748,23 +732,30 @@
                         email: this.emailaddress.value,
                         message: this.mess.value
                     }
+                this.name.value = '';
+                this.emailaddress.value = '';
+                this.mess.value = '';
                 $.ajax({
                     type: 'POST',
                     url: 'api/v1/contactform',
-                    data: {
-                        name: this.name.value,
-                        email: this.emailaddress.value,
-                        message: this.mess.value
-                    },
+                    data: data,
                     success: function(response) {
                         console.log(response);
-                        if (response.status === 200 && response.success.result === true) {
-                            console.log(response.success.result);
-                            console.log(response.success.message);
+                        if (response.status === 200) {
+                            if (response.success.result === true) {
+                                console.log(response.success.result);
+                                console.log(response.success.message);
+                                $("#contact-modal p").html(response.success.message);
+                            } else {
+                                console.log(response.error.message);
+                                return $("#form-response-message p").html(response.error.message);
+                            }
+                        } else {
+                            return $("#form-response-message p").html("There was an error. Please try again.");
                         }
                     },
                     error: function() {
-                        console.log("error");
+                        return $("#form-response-message p").html("There was an error. Please try again.");
                     }
                 });
             });
