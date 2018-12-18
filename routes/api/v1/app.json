@@ -1,0 +1,80 @@
+{
+    "$jason" : {
+        "head" : {  
+            "title":"MVP GURU (test)",
+            "description": "We help you get your app up and running in less than 3 days.",
+            "offline":"true",
+            "styles": {
+                "primary-typography" : {
+                    "font": "HelveticaNeue-Bold",
+                    "size":"24",
+                    "color":"#e74c3c"
+                },
+                "secondary-typography" : {
+                    "font": "HelveticaNeue-Regular",
+                    "size":"16",
+                    "color":"#e74c3c"
+                },
+                "links" : {
+                    "font": "HelveticaNeue-light",
+                    "size":"16",
+                    "color":"#e74c3c"
+                },
+                "circular-profile-avatar": {
+                    "corner-radius": "12.5",
+                    "width":"25",
+                    "height":"25"
+                }
+            },
+            "data" : {
+                "sample-projects" : [
+                    { 
+                        "project-title": "SweetSpot",
+                        "project-description": "An app for wine preferences powered by ML",
+                        "project-image": "https://pbs.twimg.com/profile_images/675172233036328962/oNSyGi3a_400x400.jpg"
+                    },{ 
+                        "project-title": "CampID",
+                        "project-description": "An app for athletic camps to find participants and etc.",
+                        "project-image": "https://pbs.twimg.com/profile_images/675172233036328962/oNSyGi3a_400x400.jpg"
+                    }
+                ]
+            }
+        },
+        "body": {
+            "header" : {
+                "title": {
+                    "text": "MVP-Guru",
+                    "style": {
+                        "align": "left"
+                    }
+                },
+                "menu": {
+                    "text": "Menu",
+                    "action": {
+                        "type": "$util.toast",
+                        "options": {
+                            "text": "Good job!"
+                        }
+                    }
+                }
+            },
+            "sections": [
+                {
+                    "type":"vertical",
+                    "style": {
+                        "spacing":"16"
+                    },
+                    "items": [
+                        {
+                            "type": "label",
+                            "text": "Welcome to MVP GURU's",
+                            "class": "typography"
+                        }
+                    ]
+                }
+            ],
+            "layers" : "",
+            "footer" : ""
+        }
+    }        
+}

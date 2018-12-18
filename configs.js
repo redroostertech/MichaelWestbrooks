@@ -1,0 +1,31 @@
+'use strict';
+
+const path          = require('path');
+
+module.exports = {
+    port: 3000,
+    siteTitle: 'Michael Westbrooks II',
+    base: __dirname,
+    basePublic: path.join(__dirname, '/public/'),
+    baseRoutes: path.join(__dirname, '/routes'),
+    baseViews: path.join(__dirname, '/views/'),
+    url: '',
+    secret: '',
+    nodemailUser: '',
+    nodemailPass: '',
+    nodemailerClientId: '',
+    nodemailerClientSecret: '',
+    nodemailerClientToken: '',
+    cookieName: 'MichaelWestbrookswihqonw348efiuwlrjbnvkjdbsr9i58h498wh', 
+    cookieSecret: 'MichaelWestbrooks3890rhw89hot34irbfuebrt94h589',
+    firebaseApiKey: 'AIzaSyC_tnEORptRyo1P8Q-vDsb8u5H5jQ39HTc',
+    firebaseAuthDomain: 'mvp-app-698eb.firebaseapp.com',
+    firebaseDatabaseUrl: 'https://mvp-app-698eb.firebaseio.com',
+    firebaseProjectId: 'mvp-app-698eb',
+    firebaseStorageBucket: 'mvp-app-698eb.appspot.com',
+    firebaseMessagingSenderId: '710192537650',
+    s3AccessKey: '',
+    s3SecretKey: '',
+    s3bucket: '',
+    isLive: false
+}

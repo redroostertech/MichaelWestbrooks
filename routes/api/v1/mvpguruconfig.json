@@ -1,0 +1,252 @@
+{
+    "data": 
+    [{
+        "app": {
+            "app_name": "My App Nmae",
+            "app_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+            "version": "1.0",
+            "owner_id": "192c190-de24-4c44-ab88-6f88e38bd1a5 (GUID Fortmatted String)",
+            "subscription": "basic",
+            "app_logo": {
+                "@1x": "https://via.placeholder.com/150",
+                "@2x": "https://via.placeholder.com/300",
+                "@3x": "https://via.placeholder.com/450"
+            },
+            "app_icon": {
+                "@1x": "https://via.placeholder.com/150",
+                "@2x": "https://via.placeholder.com/300",
+                "@3x": "https://via.placeholder.com/450"
+            },
+            "splash_logo": "https://via.placeholder.com/300",
+            "theme": {
+                "theme_id": "984h3w90847h89",
+                "heading_font": "Helvetica",
+                "body_font": "Helvetica",
+                "primary_color": "#FF00A1",
+                "alternate_color": "#00AA6E"
+            },
+            "menu": {
+                "menu_style_id": "MENU_STYLE_HAMBURGER",
+                "menu_items": [
+                    {
+                        "menu_item_name": "login",
+                        "menu_title": "",
+                        "menu_bg_image": "https://via.placeholder.com/300",
+                        "menu_signup_text": "Create an Account",
+                        "menu_login_text": "Login",
+                        "menu_cta": "",
+                        "menu_item_id": "Layout1",
+                        "menu_item_icon": "\"http://icon.com/icon.png\"",
+                        "order_display": "0",
+                        "screens": null
+                    },{
+                        "menu_item_name": "digital_ecommerce",
+                        "menu_title": "My Shop",
+                        "menu_bg_image": null,
+                        "menu_signup_text": null,
+                        "menu_login_text": null,
+                        "menu_cta": "Shop Now",
+                        "menu_item_id": "Layout2",
+                        "menu_item_icon": "\"http://icon.com/product_icon.png\"",
+                        "order_display": "3",
+                        "screens": [
+                            {
+                                "screen_name": "product screen",
+                                "screen_id": "17 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_SINGLE_FULL",
+                                "cell_layout": "CELL_LAYOUT_NO_BUTTON"
+                            }, {
+                                "screen_name": "product detail screen",
+                                "screen_id": "22 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_DETAIL_FULL",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }, {
+                                "screen_name": "product view cart screen",
+                                "screen_id": "27 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_VIEW_CART",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }, {
+                                "screen_name": "product check-out screen",
+                                "screen_id": "31 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_CHECKOUT",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            },{
+                                "screen_name": "product Shipping screen",
+                                "screen_id": "33 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_SHIPPING",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }, {
+                                "screen_name": "product Billing screen",
+                                "screen_id": "35 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_BILLING",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }, {
+                                "screen_name": "product confirmation screen",
+                                "screen_id": "35 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_CONFIRMATION",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }
+                        ]
+                    },{
+                        "menu_item_name": "events",
+                        "menu_title": "My Events",
+                        "menu_bg_image": null,
+                        "menu_signup_text": null,
+                        "menu_login_text": null,
+                        "menu_cta": "Buy Ticket(s)",
+                        "menu_item_id": "Layout1",
+                        "menu_item_icon": "\"http://icon.com/event_icon.png\"",
+                        "order_display": "1",
+                        "screens": [
+                            {
+                                "screen_name": "Event List screen",
+                                "screen_id": "17 (screen ids come from DB)",
+                                "list_layout_enum": "EVENT_SINGLE_FULL",
+                                "cell_layout": "CELL_LAYOUT_BUY_BUTTON"
+                            },{
+                                "screen_name": "event detail screen",
+                                "screen_id": "43 (screen ids come from DB)",
+                                "list_layout_enum": "EVENT_DETAIL_FULL",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            },{
+                                "screen_name": "product Billing screen",
+                                "screen_id": "135 (screen ids come from DB)",
+                                "list_layout_enum": "EVENT_BILLING",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            },{
+                                "screen_name": "event confirmation screen",
+                                "screen_id": "35 (screen ids come from DB)",
+                                "list_layout_enum": "EVENT_CONFIRMATION",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },{
+        "app": {
+            "app_name": "My App Nmae",
+            "app_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+            "version": "1.0",
+            "owner_id": "192c190-de24-4c44-ab88-6f88e38bd1a5 (GUID Fortmatted String)",
+            "subscription": "basic",
+            "app_logo": {
+                "@1x": "https://via.placeholder.com/150",
+                "@2x": "https://via.placeholder.com/300",
+                "@3x": "https://via.placeholder.com/450"
+            },
+            "app_icon": {
+                "@1x": "https://via.placeholder.com/150",
+                "@2x": "https://via.placeholder.com/300",
+                "@3x": "https://via.placeholder.com/450"
+            },
+            "splash_logo": "https://via.placeholder.com/300",
+            "theme": {
+                "theme_id": "984h3w90847h89",
+                "heading_font": "Helvetica",
+                "body_font": "Helvetica",
+                "primary_color": "#FF00A1",
+                "alternate_color": "#00AA6E"
+            },
+            "menu": {
+                "menu_style_id": "MENU_STYLE_HAMBURGER",
+                "menu_items": [
+                    {
+                        "menu_item_name": "login",
+                        "menu_title": "",
+                        "menu_bg_image": "https://via.placeholder.com/300",
+                        "menu_signup_text": "Create an Account",
+                        "menu_login_text": "Login",
+                        "menu_cta": "",
+                        "menu_item_id": "Layout1",
+                        "menu_item_icon": "\"http://icon.com/icon.png\"",
+                        "order_display": "0",
+                        "screens": null
+                    },{
+                        "menu_item_name": "digital_ecommerce",
+                        "menu_title": "My Shop",
+                        "menu_bg_image": null,
+                        "menu_signup_text": null,
+                        "menu_login_text": null,
+                        "menu_cta": "Shop Now",
+                        "menu_item_id": "Layout2",
+                        "menu_item_icon": "\"http://icon.com/product_icon.png\"",
+                        "order_display": "3",
+                        "screens": [
+                            {
+                                "screen_name": "product screen",
+                                "screen_id": "17 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_SINGLE_FULL",
+                                "cell_layout": "CELL_LAYOUT_NO_BUTTON"
+                            }, {
+                                "screen_name": "product detail screen",
+                                "screen_id": "22 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_DETAIL_FULL",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }, {
+                                "screen_name": "product view cart screen",
+                                "screen_id": "27 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_VIEW_CART",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }, {
+                                "screen_name": "product check-out screen",
+                                "screen_id": "31 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_CHECKOUT",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            },{
+                                "screen_name": "product Shipping screen",
+                                "screen_id": "33 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_SHIPPING",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }, {
+                                "screen_name": "product Billing screen",
+                                "screen_id": "35 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_BILLING",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }, {
+                                "screen_name": "product confirmation screen",
+                                "screen_id": "35 (screen ids come from DB)",
+                                "list_layout_enum": "PRODUCT_CONFIRMATION",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }
+                        ]
+                    },{
+                        "menu_item_name": "events",
+                        "menu_title": "My Events",
+                        "menu_bg_image": null,
+                        "menu_signup_text": null,
+                        "menu_login_text": null,
+                        "menu_cta": "Buy Ticket(s)",
+                        "menu_item_id": "Layout1",
+                        "menu_item_icon": "\"http://icon.com/event_icon.png\"",
+                        "order_display": "1",
+                        "screens": [
+                            {
+                                "screen_name": "Event List screen",
+                                "screen_id": "17 (screen ids come from DB)",
+                                "list_layout_enum": "EVENT_SINGLE_FULL",
+                                "cell_layout": "CELL_LAYOUT_BUY_BUTTON"
+                            },{
+                                "screen_name": "event detail screen",
+                                "screen_id": "43 (screen ids come from DB)",
+                                "list_layout_enum": "EVENT_DETAIL_FULL",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            },{
+                                "screen_name": "product Billing screen",
+                                "screen_id": "135 (screen ids come from DB)",
+                                "list_layout_enum": "EVENT_BILLING",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            },{
+                                "screen_name": "event confirmation screen",
+                                "screen_id": "35 (screen ids come from DB)",
+                                "list_layout_enum": "EVENT_CONFIRMATION",
+                                "cell_layout": "CELL_LAYOUT_NONE"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }]
+}

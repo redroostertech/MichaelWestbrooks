@@ -1,0 +1,68 @@
+{ 
+    "data": 
+    [{
+        "page": {
+        "screen_id": "SplashPage",
+        "screen_name":"Splash Page",
+        "storyboard_id": "AppLogin",
+        "list_layout_enum":"",
+        "cell_layout":"",
+        "page_title":"",
+        "style_id":""
+        }},{
+        "page": {
+        "screen_id": "LoginSignUpPage",
+        "screen_name":"Login & Registration Pages",
+        "storyboard_id": "AppLogin",
+        "list_layout_enum":"",
+        "cell_layout":"",
+        "page_title":"",
+        "style_id":""
+        }},{
+        "page": {
+        "screen_id": "MenuStylePage",
+        "screen_name":"Menu Style",
+        "storyboard_id": "AppLogin",
+        "list_layout_enum":"",
+        "cell_layout":"",
+        "page_title":"",
+        "style_id":""
+        }},{
+        "page": {
+        "screen_id": "EcommercePage",
+        "screen_name":"Ecommerce Pages",
+        "storyboard_id": "AppEcommerce",
+        "list_layout_enum":"",
+        "cell_layout":"",
+        "page_title":"",
+        "style_id":""
+        }},{
+        "page": {
+        "screen_id": "BookingPage",
+        "screen_name":"Booking Pages",
+        "storyboard_id": "AppLogin",
+        "list_layout_enum":"",
+        "cell_layout":"",
+        "page_title":"",
+        "style_id":""
+        }},{
+        "page": {
+        "screen_id": "EventPage",
+        "screen_name":"Event Pages",
+        "storyboard_id": "AppLogin",
+        "list_layout_enum":"",
+        "cell_layout":"",
+        "page_title":"",
+        "style_id":""
+        }},{
+        "page":{
+        "screen_id": "NewsFeedPage",
+        "screen_name":"News Feed Pages",
+        "storyboard_id": "AppNewsFeed",
+        "list_layout_enum":"",
+        "cell_layout":"",
+        "page_title":"",
+        "style_id":""
+        }
+    }]
+}
