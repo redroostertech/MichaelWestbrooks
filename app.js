@@ -68,12 +68,10 @@ if (cluster.isMaster) {
     var twilioClient = new twilio(configs.twilioAccountSid, configs.twilioAuthToken);
 
     //  MARK:- Set up routes.
-    //  var adminController = require(path.join(basePathRoutes, '/admin/index.js'));
     var mainController = require(path.join(basePathRoutes, '/main/index.js'));
     var apiController = require(path.join(basePathRoutes, '/api/v1/index.js'));
     
     //  MARK:- Use Routes
-    //  app.use('/admin', adminController);
     app.use('/', mainController);
     app.use('/api/v1', apiController);
 
@@ -114,5 +112,6 @@ if (cluster.isMaster) {
     module.exports.basePathViews = configs.baseViews;
     module.exports.firebase = firebase;
     module.exports.cache = nodeCache;
-    module.exports.twilio = twilioClient;
+    module.exports.twilio = twilio;
+    module.exports.twilioClient = twilioClient;
 }

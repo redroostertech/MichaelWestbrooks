@@ -64,13 +64,12 @@ router.post('/contactform', function(req, res) {
 
 router.post('/sendText', function(req,res){
     console.log(req.body);
-    main.twilio.messages.create({
+    main.twilioClient.messages.create({
         body: req.body.message,
         to: req.body.recipient,
         from: '+19292035343'
     })
     .then((message) => validateResponse(message, res));
-    
 });
 
 function validateResponse(message, res) {
@@ -103,5 +102,12 @@ function validateResponse(message, res) {
         });
     }
 }
+
+router.post('/receivedText', function(req, res) {
+    var twiml = new main.twilio.twiml.MessagingResponse();
+    twiml.message('The Robots are coming! Head for the hills!');
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+});
 
 module.exports = router;
