@@ -32,6 +32,7 @@ if (cluster.isMaster) {
     const configs           = require('./configs');
     const fs                = require('fs');
     const NodeCache         = require('node-cache');
+    const twilio            = require('twilio');
 
 
     //  MARK:- Setup additional variables
@@ -64,13 +65,17 @@ if (cluster.isMaster) {
         useClones: true
     });
 
+    var twilioClient = new twilio(configs.twilioAccountSid, configs.twilioAuthToken);
+
     //  MARK:- Set up routes.
     //  var adminController = require(path.join(basePathRoutes, '/admin/index.js'));
     var mainController = require(path.join(basePathRoutes, '/main/index.js'));
+    var apiController = require(path.join(basePathRoutes, '/api/v1/index.js'));
     
     //  MARK:- Use Routes
     //  app.use('/admin', adminController);
     app.use('/', mainController);
+    app.use('/api/v1', apiController);
 
     //  MARK:- Create catch all's
     // app.all('/*', function(req, res){
@@ -109,4 +114,5 @@ if (cluster.isMaster) {
     module.exports.basePathViews = configs.baseViews;
     module.exports.firebase = firebase;
     module.exports.cache = nodeCache;
+    module.exports.twilio = twilioClient;
 }

@@ -27,5 +27,7 @@ module.exports = {
     s3AccessKey: '',
     s3SecretKey: '',
     s3bucket: '',
-    isLive: false
+    isLive: false,
+    twilioAccountSid: 'AC6a5aa06f9e8e365500e6e3b51fa86a5b',
+    twilioAuthToken: '6fb3c096375f9d171c5e9b7249ef1be2',
 }

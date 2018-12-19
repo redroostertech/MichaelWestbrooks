@@ -22,6 +22,10 @@ router.get('/', function(req, res) {
     res.status(200).render('main/index');
 });
 
+router.get('/twilio', function(req, res) {
+    res.status(200).render('main/twilio');
+}); 
+
 router.post('/api/v1/contactform', function(req, res) {
     console.log(req.body);
     var data = {
@@ -68,8 +72,18 @@ router.post('/api/v1/contactform', function(req, res) {
             });
         }
     });
-    
 });
+
+// router.post('/api/v1/sendText', function(req,res){
+//     console.log(req.body);
+//     main.twilio.messages.create({
+//         body: req.body.message,
+//         to: req.body.receipient,
+//         from: '+19292035343'
+//     }).then(function(message) {
+//         console.log(messaage);
+//     });
+// });
 
 router.get('/api/v1/getApp.json', function(req,res) {
     res.sendFile(path.join(main.basePathRoutes, '/api/v1/app.json'));

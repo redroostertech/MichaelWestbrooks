@@ -676,14 +676,14 @@
                                 $("#contact-modal p").html(response.success.message);
                             } else {
                                 console.log(response.error.message);
-                                return $("#form-response-message p").html(response.error.message);
+                                return $("#contact-modal p").html(response.error.message);
                             }
                         } else {
-                            return $("#form-response-message p").html("There was an error. Please try again.");
+                            return $("#contact-modal p").html("There was an error. Please try again.");
                         }
                     },
                     error: function() {
-                        return $("#form-response-message p").html("There was an error. Please try again.");
+                        return $("#contact-modal p").html("There was an error. Please try again.");
                     }
                 });
             });
