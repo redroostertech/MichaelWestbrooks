@@ -104,6 +104,7 @@ function validateResponse(message, res) {
 }
 
 router.post('/receivedText', function(req, res) {
+    console.log(req.body);
     var twiml = new main.twilio.twiml.MessagingResponse();
     twiml.message('The Robots are coming! Head for the hills!');
     res.writeHead(200, {'Content-Type': 'text/xml'});
