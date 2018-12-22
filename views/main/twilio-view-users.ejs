@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <meta charset="utf-8" />
+        <title>Pages - Admin Dashboard UI Kit - Blank Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+        <link rel="apple-touch-icon" href="pages/ico/60.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="pages/ico/76.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="pages/ico/120.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="pages/ico/152.png">
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="assets/plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/datatables-responsive/css/datatables.responsive.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+        <link class="main-stylesheet" href="pages/css/themes/modern.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body class="fixed-header horizontal-menu horizontal-app-menu ">
+
+        <% include partials/twilio-header %>
+
+        <div class="page-container ">
+        <div class="page-content-wrapper ">
+            <div class="content ">
+            <div class=" no-padding    container-fixed-lg bg-white">
+                <div class="container">
+
+                <div class="card card-transparent">
+
+                    <div class="card-header ">
+                    <div class="card-title">List of Users
+                    </div>
+                    <div class="pull-right">
+                        <div class="col-xs-12">
+                        <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+                        </div>
+                        
+                    </div>
+                    <div class="clearfix"></div>
+                    </div>
+
+
+                    <div class="card-body">
+                    <!--<div class="col-xs-12">
+                        <a href="twilio-upload-venue" class="btn btn-primary btn-cons text-white"><i class="fa fa-plus"></i> Add Venue</a>
+                    </div>-->
+                    <table class="table table-hover demo-table-search table-responsive-block" id="tableWithSearch">
+                        <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Venue</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% if (data !== null) { %>
+                            <% Object.keys(data).forEach(function(object) { %>
+                                <% console.log(data[object]) %>
+                                <% var obj = data[object] %>
+                                <tr>
+                                    <td class="v-align-middle semi-bold">
+                                        <a href="mailto: <%= obj.email %>"> <p><%= obj.email %></p></a>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <a href="#" class="btn btn-tag"><%= obj.firstname %></a>
+                                        <a href="#" class="btn btn-tag"><%= obj.lastname %></a>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p><%= obj.phone %></p>
+                                    </td>
+                                    <td class="v-align-middle">
+                                        <p><%= obj.venue %></p>
+                                    </td>
+                                    <td>
+                                    <a href="twilio-edit-user?id=<%= object %>" class="btn btn-default"><i class="pg-close"></i> Edit</a>
+                                    </td>
+                                </tr>
+                            <% }); %> 
+                        <% } %>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+            </div>
+
+            <% include partials/twilio-copyright %>
+
+        </div>
+        </div>
+        
+        <!-- BEGIN VENDOR JS -->
+        <script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/popper/umd/popper.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+        <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/select2/js/select2.full.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/classie/classie.js"></script>
+        <script src="assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-datatable/media/js/dataTables.bootstrap.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js" type="text/javascript"></script>
+        <script type="text/javascript" src="assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
+        <script type="text/javascript" src="assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+        <!-- END VENDOR JS -->
+        <!-- BEGIN CORE TEMPLATE JS -->
+        <script src="pages/js/pages.min.js"></script>
+        <!-- END CORE TEMPLATE JS -->
+        <!-- BEGIN PAGE LEVEL JS -->
+        <script src="assets/js/datatables.js" type="text/javascript"></script>
+        <script src="assets/js/scripts.js" type="text/javascript"></script>
+        <!-- END PAGE LEVEL JS -->
+    </body>
+</html>

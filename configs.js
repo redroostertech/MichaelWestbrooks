@@ -30,4 +30,5 @@ module.exports = {
     isLive: false,
     twilioAccountSid: 'AC6a5aa06f9e8e365500e6e3b51fa86a5b',
     twilioAuthToken: '6fb3c096375f9d171c5e9b7249ef1be2',
+    twilioAuthyAPI: 'crFlxHi1MygZJx9ZFU4z5Wi3ilE5zoiE',
 }

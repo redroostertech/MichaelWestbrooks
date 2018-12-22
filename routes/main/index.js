@@ -2,6 +2,7 @@ const express       = require('express');
 const router        = express.Router();
 const main          = require('../../app.js');
 const bodyParser    = require('body-parser');
+const dynamicAddresses  = require('country-state-city');
 const path          = require('path');
 const session       = require('client-sessions');
 const ok            = require('async');
@@ -22,158 +23,247 @@ router.get('/', function(req, res) {
     res.status(200).render('main/index');
 });
 
+router.get('/admin', function(req, res) {
+    res.status(200).render('main/admin-signin');
+});
+
 router.get('/twilio', function(req, res) {
     res.status(200).render('main/twilio');
 }); 
 
-router.post('/api/v1/contactform', function(req, res) {
-    console.log(req.body);
-    var data = {
-        name: req.body.name,
-        email: req.body.email,
-        message: req.body.message,
-        _createdAt: new Date()
-    };
+router.get('/twilio-signup', function(req, res) {
+    retrieve('venues', function(success, venues) {
+        if (!success) {
+            res.status(200).render('main/twilio-signup', {
+                "status": 200,
+                "success": {
+                    "result": false,
+                    "message": null
+                },
+                "data": venues,
+                "error": {
+                    "code": 200,
+                    "message": "No venues available.",
+                }
+            });
+        } else {
+            res.status(200).render('main/twilio-signup', {
+                "status": 200,
+                "success": {
+                    "result": true,
+                    "message": "Requst was successful"
+                },
+                "data": venues,
+                "error": {
+                    "code": null,
+                    "message":null,
+                }
+            });
+        }
+    });
+});
 
+router.get('/twilio-view-venues', function(req, res) {
     main.firebase.firebase_realtime_db(function(reference) {
         if (!reference) { 
-            return console.log("No reference availale"); 
+            res.status(200).render('main/twilio-view-venues', {
+                "status": 200,
+                "success": {
+                    "result": true,
+                    "message": "Requst was successful"
+                },
+                "data": null,
+                "error": {
+                    "code": null,
+                    "message":null,
+                }
+            });
         } else {
-            var contactRef = reference.ref('contactForm');
-            var newContactRef = contactRef.push();
-            newContactRef.set(data).then(function() {
-                res.status(200).json({
+            retrieve('venues', function(success, venues) {
+                res.status(200).render('main/twilio-view-venues', {
                     "status": 200,
                     "success": {
                         "result": true,
-                        "message": "Thank you for sending me a message. I will get back to you shortly."
+                        "message": "Requst was successful"
                     },
-                    "data": null,
+                    "data": venues,
                     "error": {
                         "code": null,
-                        "message": null
+                        "message":null,
                     }
                 });
+            });
+        }
+    });
+});
+
+router.get('/twilio-view-users', function(req, res) {
+    main.firebase.firebase_realtime_db(function(reference) {
+        if (!reference) { 
+            res.status(200).render('main/twilio-view-users', {
+                "status": 200,
+                "success": {
+                    "result": true,
+                    "message": "Requst was successful"
+                },
+                "data": null,
+                "error": {
+                    "code": null,
+                    "message":null,
+                }
+            });
+        } else {
+            retrieve('users', function(success, users) {
+                res.status(200).render('main/twilio-view-users', {
+                    "status": 200,
+                    "success": {
+                        "result": true,
+                        "message": "Requst was successful"
+                    },
+                    "data": users,
+                    "error": {
+                        "code": null,
+                        "message":null,
+                    }
+                });
+            });
+        }
+    });
+});
+
+router.get('/twilio-upload-venue', function(req, res) {
+    res.status(200).render('main/twilio-upload', {
+        "status": 200,
+        "success": {
+            "result": true,
+            "message": "Requst was successful"
+        },
+        "data": null,
+        "error": {
+            "code": null,
+            "message":null,
+        }
+    });
+});
+
+router.get('/twilio-view-venue', function(req, res) {
+    console.log(req.query);
+    main.firebase.firebase_realtime_db(function(reference) {
+        if (!reference) { 
+            res.status(200).render('main/twilio-view-venue', {
+                "status": 200,
+                "success": {
+                    "result": true,
+                    "message": "Requst was successful"
+                },
+                "data": null,
+                "error": {
+                    "code": null,
+                    "message":null,
+                }
+            });
+        } else {
+            retrieveWith(req.query.id, 'venues', function(success, venues) {
+                venues.key = req.query.id;
+                res.status(200).render('main/twilio-view-venue', {
+                    "status": 200,
+                    "success": {
+                        "result": true,
+                        "message": "Requst was successful"
+                    },
+                    "data": venues,
+                    "error": {
+                        "code": null,
+                        "message":null,
+                    }
+                });
+            });
+        }
+    });
+});
+
+router.get('/twilio-edit-venue', function(req, res) {
+    console.log(req.query);
+    main.firebase.firebase_realtime_db(function(reference) {
+        if (!reference) { 
+            res.status(200).render('main/twilio-edit-venue', {
+                "status": 200,
+                "success": {
+                    "result": true,
+                    "message": "Requst was successful"
+                },
+                "data": null,
+                "error": {
+                    "code": null,
+                    "message":null,
+                }
+            });
+        } else {
+            retrieveWith(req.query.id, 'venues', function(success, venues) {
+                res.status(200).render('main/twilio-edit-venue', {
+                    "status": 200,
+                    "success": {
+                        "result": true,
+                        "message": "Requst was successful"
+                    },
+                    "data": venues,
+                    "error": {
+                        "code": null,
+                        "message":null,
+                    }
+                });
+            });
+        }
+    });
+});
+
+function retrieve(endpoint, callback) {
+    main.firebase.firebase_realtime_db(function(reference) {
+        if (!reference) { 
+            return callback(false, null);
+        } else {
+            reference.ref('venue-management/'+endpoint+'/').once('value').then(function(snapshot) {
+                if (snapshot.val() === null) {
+                    return callback(false, null);
+                } else {
+                    const data = snapshot.val() || null;
+                    if (data) {
+                        return callback(true, data);
+                    }
+                    return callback(false, null);
+                }
             }).catch(function (error) {
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                res.status(200).json({
-                    "status": 200,
-                    "success": {
-                        "result": false,
-                        "message": null
-                    },
-                    "data": null,
-                    "error": {
-                        "code": errorCode,
-                        "message": errorMessage
-                    }
-                });
+                console.log(errorMessage);
+                return callback(false, null);
             });
         }
     });
-});
+}
 
-router.get('/api/v1/getApp.json', function(req,res) {
-    res.sendFile(path.join(main.basePathRoutes, '/api/v1/app.json'));
-});
-
-router.get('/api/v1/getPages.json', function(req,res) {
-    res.sendFile(path.join(main.basePathRoutes, '/api/v1/pagesconfiguration.json'));
-});
-
-router.get('/api/v1/getApp.json', function(req, res) {
-    res.sendFile(path.join(main.basePathRoutes, '/api/v1/mvpguruconfig.json'));
-});
-
-router.post('/api/v1/createApp', function(req, res) {
-
-    var reqData = req.body.data;
-    var reqDataScreen = (req.body.data.screen != undefined) ? req.body.data.screen:null;
-
-    var data = {
-        _createdAt: new Date(),
-        theme: {
-            secondaryColor: reqData.secondaryColor,
-            primaryColor: reqData.primaryColor
-        },
-        description: reqData.description,
-        owner_id: reqData.owner_id,
-        category: reqData.category,
-        appId: reqData.appId,
-        name: reqData.name,
-        screen: reqDataScreen
-    }
-
-    console.log(data);
-
+function retrieveWith(key, endpoint, callback) {
     main.firebase.firebase_realtime_db(function(reference) {
         if (!reference) { 
-            return console.log("No reference availale"); 
+            return callback(false, null);
         } else {
-
-            //  App Info
-            reference.ref('apps/' + data.appId).once('value').then(function(snapshot) {
-                
-                // console.log('Edit data');
-                // console.log(snapshot.val());
-                // console.log(data.appId);
-
-                addAppInfo(reference, data.appId, data, function(response) {
-                    res.json(response);
-                });
-
+            reference.ref('venue-management/'+endpoint).child(key).once('value').then(function(snapshot) {
+                if (snapshot.val() === null) {
+                    return callback(false, null);
+                } else {
+                    const data = snapshot.val() || null;
+                    if (data) {
+                        return callback(true, data);
+                    }
+                    return callback(false, null);
+                }
+            }).catch(function (error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(errorMessage);
+                return callback(false, null);
             });
         }
-    });
-
-});
-
-function show404Page(res) {
-    res.status(200).render('404');
-}
-
-function addAppInfo(reference, id, data, callback) {
-    reference.ref('apps/' + id).set(data).then(function() {
-        callback({
-            "data": {
-                "code": 200,
-                "message": "Successfully add data"
-            },
-            "error": null
-        });
-    }).catch(function (error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        callback({
-            "data": null,
-            "error": {
-                "code": errorCode,
-                "message": errorMessage
-            }
-        });
-    });
-}
-
-function sendMessageFromContactForm(reference, id, data, callback) {
-    reference.ref('contactForm/' + id).set(data).then(function() {
-        callback({
-            "data": {
-                "code": 200,
-                "message": "Successfully add data"
-            },
-            "error": null
-        });
-    }).catch(function (error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        callback({
-            "data": null,
-            "error": {
-                "code": errorCode,
-                "message": errorMessage
-            }
-        });
     });
 }
 

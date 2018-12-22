@@ -83,11 +83,20 @@ module.exports.setup = function firebaseSetup() {
         console.log('Completed setting up base firebase storage app');
     });
 };
-module.exports.firebase_main = firebaseObj;
+module.exports.firebase_main = function returnFirebaseMainObject(callback) {
+    callback(firebaseObj);
+}
 module.exports.firebase_admin = firebaseAdmin;
-module.exports.firebase_firestore_db = firebaseFirestoreDB;
+module.exports.firebase_firestore_db = function setupFirestore(callback) {
+    callback(firebaseFirestoreDB);
+}
 module.exports.firebase_realtime_db = function setupRealtimeDB(callback) {
     callback(firebaseObj.database());
 }
-module.exports.firebase_storage = firbaseStorage;
+module.exports.firebase_auth = function setupAuth(callback) {
+    callback(firebaseObj.auth());
+}
+module.exports.firebase_storage = function setupStorage(callback) {
+    callback(firbaseStorage.bucket('mvp-app-698eb.appspot.com'));
+}
 // module.exports.firebase_storage_bucket = firPrimaryStorageBucket;

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <meta charset="utf-8" />
+        <title>Pages - Admin Dashboard UI Kit - Blank Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+        <link rel="apple-touch-icon" href="pages/ico/60.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="pages/ico/76.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="pages/ico/120.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="pages/ico/152.png">
+        <link rel="icon" type="image/x-icon" href="favicon.ico" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="assets/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/bootstrap-tag/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/dropzone/css/dropzone.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="assets/plugins/summernote/css/summernote.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+        <link class="main-stylesheet" href="pages/css/themes/modern.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body class="fixed-header horizontal-menu horizontal-app-menu ">
+
+        <% include partials/twilio-header %>
+
+        <div class="page-container ">
+            <div class="page-content-wrapper ">
+                <div class="content ">
+                    <div class=" no-padding    container-fixed-lg bg-white">
+                        <div class="container">
+
+                            <div class="card card-transparent">
+
+                                <div class="card-header ">
+                                    <div class="card-title">View Venue: <%= data.venueName %>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="form-horizontal">
+                                                <div class="form-group row">
+                                                    <label for="venuename" class="col-md-3 control-label">Venue Name</label>
+                                                    <div class="col-md-9">
+                                                        <label for="venuename" class="control-label"><%= data.venueName %></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="venuecity" class="col-md-3 control-label">Venue City</label>
+                                                    <div class="col-md-9">
+                                                        <label for="venuename" class="control-label"><%= data.venueCity %></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="venuestate" class="col-md-3 control-label">Venue State</label>
+                                                    <div class="col-md-9">
+                                                        <label for="venuename" class="control-label"><%= data.venueState %></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="venuecity" class="col-md-3 control-label">Venue Country</label>
+                                                    <div class="col-md-9">
+                                                        <label for="venuename" class="control-label"><%= data.venueCountry %></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="uploadCount" class="col-md-3 control-label">Floorplan Renderings</label>
+                                                    <div id="uploadCount">
+                                                        <div id="input-item" class="col-md-9" style="margin-bottom: 20px;">
+                                                            <div class="fallback">
+                                                            <% if (data !== null) { %>
+                                                                <% Object.keys(data.images).forEach(function(object) { %>
+                                                                    <% console.log(data.images[object]) %>
+                                                                    <% var obj = data.images[object] %>
+                                                                    <div>
+                                                                        <img id="preview1" style="max-height: 500px;" src="<%= obj %>" alt="...">
+                                                                    </div>
+                                                                <% }); %> 
+                                                            <% } %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="sectionCount" class="col-md-3 control-label">How many sections/tables are in the venue?</label>
+                                                    <div id="sectionCount">
+                                                        <% if (data !== null) { %>
+                                                            <% Object.keys(data.sections).forEach(function(object) { %>
+                                                                <% console.log(data.images[object]) %>
+                                                                <% var obj = data.sections[object] %>
+                                                                <div>
+                                                                    <div class="col-md-9" style="margin-bottom: 20px;">
+                                                                        <label for="sectionCount" class="control-label">Section Title: <%= obj.sectionTitle %></label>
+                                                                    </div>
+                                                                </div>
+                                                            <% }); %> 
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="active" class="col-md-3 control-label">Is Venue Active?</label>
+                                                    <div class="col-md-9">
+                                                        <label for="active" class="col-md-3 control-label"><%= data.active %></label>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <a href="../api/v1/deletevenue/<%= data.key %>" class="btn btn-primary btn-cons text-white" >Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <% include partials/twilio-copyright %>
+                
+            </div>
+        </div>
+        <!-- BEGIN VENDOR JS -->
+        <script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/popper/umd/popper.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+        <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/select2/js/select2.full.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/classie/classie.js"></script>
+        <script src="assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/jquery-autonumeric/autoNumeric.js"></script>
+        <script type="text/javascript" src="assets/plugins/dropzone/dropzone.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/bootstrap-tag/bootstrap-tagsinput.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
+        <script src="assets/plugins/bootstrap-form-wizard/js/jquery.bootstrap.wizard.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+        <script src="assets/plugins/summernote/js/summernote.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/moment/moment.min.js"></script>
+        <script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <script src="assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+        <script src="assets/plugins/bootstrap-typehead/typeahead.bundle.min.js"></script>
+        <script src="assets/plugins/bootstrap-typehead/typeahead.jquery.min.js"></script>
+        <script src="assets/plugins/handlebars/handlebars-v4.0.5.js"></script>
+        <!-- END VENDOR JS -->
+        <!-- BEGIN CORE TEMPLATE JS -->
+        <script src="pages/js/pages.min.js"></script>
+        <!-- END CORE TEMPLATE JS -->
+        <!-- BEGIN PAGE LEVEL JS -->
+        <script src="assets/js/form_elements.js" type="text/javascript"></script>
+        <script src="assets/js/scripts.js" type="text/javascript"></script>
+        <!-- END PAGE LEVEL JS -->
+
+        <script>
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#preview'+input.id)
+                            .attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            var imageCount = 1;
+            var maxCount = 3;
+
+            function appendInput() {
+                if (imageCount < maxCount) {
+                    imageCount = imageCount + 1;
+                    var input = '<div><div id="input-item" class="col-md-9" style="margin-bottom: 20px;"><div class="fallback"><img id="preview'+imageCount+'" style="max-height: 500px;" src="http://placehold.it/200x150" alt="..."><input id="'+imageCount+'" class="form-control" type="file" name="venueImage'+imageCount+'" accept="image/*" onchange="readURL(this);" multiple/><a href="#"  onclick="removeInput(this)" class="btn btn-orange fileinput-exists" data-dismiss="fileinput">Remove</a></div></div></div>';
+                    console.log(imageCount);
+                    $('#floors').val(imageCount);
+                    $('#uploadCount').append(input);
+                } else {
+                    console.log('Ok');
+                    alert('Error: You can only add up to 3 floorplans.');
+                }
+            }
+
+            var sectionCount = 1;
+
+            function appendSection() {
+                sectionCount = sectionCount + 1;
+                var input = '<div><div class="col-md-9" style="margin-bottom: 20px;"><input type="text" id="section'+sectionCount+'"  name="section'+sectionCount+'" class="form-control" placeholder="Section Name"><a class="btn btn-default" onclick="removeSection(this)" ><i class="pg-close"></i> Remove</a></div></div>';
+                console.log(sectionCount);
+                $('#sections').val(sectionCount);
+                $('#sectionCount').append(input);
+            }
+            
+            function removeInput(e) {
+                imageCount = imageCount - 1;
+                $('#floors').val(imageCount);
+                e.parentNode.remove();
+            }
+
+            function removeSection(e) {
+                sectionCount = sectionCount - 1;
+                $('#sections').val(sectionCount);
+                e.parentNode.remove();
+            }
+        </script>
+
+    </body>
+</html>

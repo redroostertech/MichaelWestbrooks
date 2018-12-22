@@ -107,6 +107,7 @@ if (cluster.isMaster) {
     }
 
     module.exports.port = port;
+    module.exports.configs = configs;
     module.exports.basePath = configs.base;
     module.exports.basePathRoutes = configs.baseRoutes;
     module.exports.basePathViews = configs.baseViews;
