@@ -263,62 +263,140 @@ router.post('/sendText', function(req,res){
 });
 
 router.post('/receivedText', function(req, res) {
-    console.log(req.body);
-    verify(req.body.From, function(success, object) {
+
+    //console.log(req.body);
+    var twiml = new main.twilio.twiml.MessagingResponse();
+    var body = req.body.Body.toLowerCase();
+
+    verify(req.body.From, function(success, user) {
         if (!success) {
-            var twiml = new main.twilio.twiml.MessagingResponse();
             twiml.message("Welcome to Venue Management. We were not able to verify your phone number. Create your account at https://michael-westbrooks.herokuapp.com/twilio-signup.");
             res.writeHead(200, {'Content-Type': 'text/xml'});
             res.end(twiml.toString());
         } else {
+            console.log(user); 
+            if (body.includes('menu')) { // Show menu items
+                twiml.message("TEXT any of the following menu options: BOOK, EDIT, AVAILABLE, HOW TO");
+                res.writeHead(200, {'Content-Type': 'text/xml'});
+                res.end(twiml.toString());
+                return
+            } else if (body.includes('how to')) {
+                if (body.includes('book')) { //  This is a request to learn how to book
+                    twiml.message("To book text BOOK SECTION and the section number. For example, \n\n BOOK SECTION 1 \n\n to book section 1 at the venue you are assigned to.");
+                    res.writeHead(200, {'Content-Type': 'text/xml'});
+                    res.end(twiml.toString());
+                    return
+                } else if (body.includes('edit') || body.includes('edit booking')) { //  This is a request to learn how to book
+                    twiml.message("To edit one of your bookingdbook text BOOK SECTION and the section number. For example, \n\n BOOK SECTION 1 \n\n to book section 1 at the venue you are assigned to.");
+                    res.writeHead(200, {'Content-Type': 'text/xml'});
+                    res.end(twiml.toString());
+                    return
+                } else {
+                    twiml.message("Use the HOW TO command to learn how to use this system. Available commands are \n\n HOW TO BOOK");
+                    res.writeHead(200, {'Content-Type': 'text/xml'});
+                    res.end(twiml.toString());
+                    return
+                }
+            } else if (body.includes('book')) {
+                if (body.includes('section')) { // This is a request to make a booking
+                    var sectionTitle = body.match(/\d+/);
+                    if (sectionTitle === null) {
+                        twiml.message("You did not provide a section number. To view available sections, text AVAILABLE. To book, text BOOK SECTION with the section number. For example, \n\n BOOK SECTION 1 \n\n to book section 1 at the venue you are assigned to.");
+                        res.writeHead(200, {'Content-Type': 'text/xml'});
+                        res.end(twiml.toString());
+                        return
+                    } else {
+                        main.firebase.firebase_realtime_db(function(reference) {
+                            if (!reference) { 
+                                twiml.message("Server request was not successful. Please try again later.");
+                                res.writeHead(200, {'Content-Type': 'text/xml'});
+                                res.end(twiml.toString());
+                            } else {
+                                retrieveFor('venues', 'venueID', user.venue, function(success, venues) {
+                                    Object.keys(venues).forEach(function(venueKey) {
+                                        var venue = venues[venueKey];
+                                        Object.keys(venue.sections).forEach(function(sectionKey) {
+                                            var obj = venue.sections[sectionKey];
+                                            console.log("Sections \n\n ------ \n\n" + obj.sectionTitle + ' ' + obj.available);
+                                            console.log(sectionTitle);
+                                            if (obj.sectionTitle.toString() === sectionTitle.toString() && obj.available === true) {
+                                                reference.ref('venue-management/venues/'+venueKey+'/sections/'+sectionKey).update({
+                                                    available: false,
+                                                    owner: user
+                                                }).then(function(snapshot) {
+                                                    twiml.message("You have booked section " + obj.sectionTitle + " at " + venue.venueName + " Thank you for the booking.");
+                                                    res.writeHead(200, {'Content-Type': 'text/xml'});
+                                                    res.end(twiml.toString());
+                                                    return;
+                                                }).catch(function (error) {
+                                                    twiml.message("There was an error with your booking. Please try again.");
+                                                    res.writeHead(200, {'Content-Type': 'text/xml'});
+                                                    res.end(twiml.toString());
+                                                    return;
+                                                });                                                
+                                            }
+                                        });
+                                    });
+                                });
+                            }
+                        });
+                    }
+                } else {
+                    twiml.message("You did not provide a section number. To view available sections, text AVAILABLE. To book, text BOOK SECTION with the section number. For example, \n\n BOOK SECTION 1 \n\n to book section 1 at the venue you are assigned to.");
+                    res.writeHead(200, {'Content-Type': 'text/xml'});
+                    res.end(twiml.toString());
+                    return
+                }
+            } else if (body === 'edit') { 
+                twiml.message("You cannot edit a booking at this time.");
+                res.writeHead(200, {'Content-Type': 'text/xml'});
+                res.end(twiml.toString());
+                return
+            } else if (body.includes('available') || body.includes('availablility') ) { 
+                main.firebase.firebase_realtime_db(function(reference) {
+                    if (!reference) { 
+                        twiml.message("Server request was not successful. Please try again later.");
+                        res.writeHead(200, {'Content-Type': 'text/xml'});
+                        res.end(twiml.toString());
+                    } else {
+                        
+                        retrieveFor('venues', 'venueID', user.venue, function(success, venues) {
+                            var text = 'Available reservations include: \n\n';
+                            
+                            Object.keys(venues).forEach(function(venueKey) {
+                                var venue = venues[venueKey];
+                                Object.keys(venue.images).forEach(function(imageKey){
+                                    var obj = venue.images[imageKey];
+                                    text += 'View floorplan for '+ venue.venueName +' at: ' + obj + '\n\n';
+                                });
 
-            console.log(object); 
+                                var finished = _.after(parseInt(Object.keys(venue.sections).length), check);
 
-            if (req.body.Body.toLowerCase() === 'menu') { 
-                var twiml = new main.twilio.twiml.MessagingResponse();
-                twiml.message("TEXT any of the following menu options: BOOK, EDIT, AVAILABLE");
+                                Object.keys(venue.sections).forEach(function(sectionKey) {
+                                    var obj = venue.sections[sectionKey];
+                                    if (obj.available === true) {
+                                        text += 'Section ' + obj.sectionTitle + '\n';
+                                    }
+                                    finished();
+                                });
+                            });
+
+                            function check(){
+                                twiml.message(text);
+                                res.writeHead(200, {'Content-Type': 'text/xml'});
+                                res.end(twiml.toString());
+                            }
+                        });
+                    }
+                });
+                return
+            } else {
+                console.log("No criteria met.");
+                twiml.message("Hello " + object.firstname + ". Welcome to Venue Management. To get started text MENU or text HOW TO.");
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end(twiml.toString());
                 return
             }
-
-            if (req.body.Body.toLowerCase() === 'help') { 
-                var twiml = new main.twilio.twiml.MessagingResponse();
-                twiml.message("TEXT any of the following menu options: BOOK, EDIT, AVAILABLE");
-                res.writeHead(200, {'Content-Type': 'text/xml'});
-                res.end(twiml.toString());
-                return
-            }
-
-            if (req.body.Body.toLowerCase() === 'BOOK') { 
-                var twiml = new main.twilio.twiml.MessagingResponse();
-                twiml.message("Available reservations include: ");
-                res.writeHead(200, {'Content-Type': 'text/xml'});
-                res.end(twiml.toString());
-                return
-            }
-
-            if (req.body.Body.toLowerCase() === 'EDIT') { 
-                var twiml = new main.twilio.twiml.MessagingResponse();
-                twiml.message("Available reservations include: ");
-                res.writeHead(200, {'Content-Type': 'text/xml'});
-                res.end(twiml.toString());
-                return
-            }
-
-            if (req.body.Body.toLowerCase() === 'AVAILABLE') { 
-                var twiml = new main.twilio.twiml.MessagingResponse();
-                twiml.message("Available reservations include: ");
-                res.writeHead(200, {'Content-Type': 'text/xml'});
-                res.end(twiml.toString());
-                return
-            }
-
-            var twiml = new main.twilio.twiml.MessagingResponse();
-            twiml.message("Hello " + object.firstname + ". Welcome to Venue Management. To get started text MENU or text HELP.");
-            res.writeHead(200, {'Content-Type': 'text/xml'});
-            res.end(twiml.toString());
-            return
         }
     })
 });
@@ -348,7 +426,9 @@ router.post('/createvenue', function(req, res) {
             for (i = 0; i < parseInt(fields.sections); i++){
                 sectionData['section'+(i+1)] = {
                     sectionID: randomstring.generate(25),
-                    sectionTitle: fields['section'+(i+1)]
+                    sectionTitle: fields['section'+(i+1)],
+                    available: true,
+                    reservedBy: ''
                 };  
             }
 
@@ -609,6 +689,81 @@ function addAppInfo(reference, id, data, callback) {
                 "message": errorMessage
             }
         });
+    });
+}
+
+function retrieve(endpoint, callback) {
+    main.firebase.firebase_realtime_db(function(reference) {
+        if (!reference) { 
+            return callback(false, null);
+        } else {
+            reference.ref('venue-management/'+endpoint+'/').once('value').then(function(snapshot) {
+                if (snapshot.val() === null) {
+                    return callback(false, null);
+                } else {
+                    const data = snapshot.val() || null;
+                    if (data) {
+                        return callback(true, data);
+                    }
+                    return callback(false, null);
+                }
+            }).catch(function (error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(errorMessage);
+                return callback(false, null);
+            });
+        }
+    });
+}
+
+function retrieveWith(key, endpoint, callback) {
+    main.firebase.firebase_realtime_db(function(reference) {
+        if (!reference) { 
+            return callback(false, null);
+        } else {
+            reference.ref('venue-management/'+endpoint).child(key).once('value').then(function(snapshot) {
+                if (snapshot.val() === null) {
+                    return callback(false, null);
+                } else {
+                    const data = snapshot.val() || null;
+                    if (data) {
+                        return callback(true, data);
+                    }
+                    return callback(false, null);
+                }
+            }).catch(function (error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(errorMessage);
+                return callback(false, null);
+            });
+        }
+    });
+}
+
+function retrieveFor(endpoint, orderedBy, value, callback) {
+    main.firebase.firebase_realtime_db(function(reference) {
+        if (!reference) { 
+            return callback(false, null);
+        } else {
+            reference.ref('venue-management/'+endpoint).orderByChild(orderedBy).equalTo(value).once('value').then(function(snapshot) {
+                if (snapshot.val() === null) {
+                    return callback(false, null);
+                } else {
+                    const data = snapshot.val() || null;
+                    if (data) {
+                        return callback(true, data);
+                    }
+                    return callback(false, null);
+                }
+            }).catch(function (error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(errorMessage);
+                return callback(false, null);
+            });
+        }
     });
 }
 
