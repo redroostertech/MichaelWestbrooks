@@ -270,14 +270,14 @@ router.post('/receivedText', function(req, res) {
 
     verify(req.body.From, function(success, user) {
         if (!success) {
-            twiml.message("Welcome to Venue Management. We were not able to verify your phone number. Create your account at https://michael-westbrooks.herokuapp.com/twilio-signup.");
+            twiml.message("Welcome to Venue Management. We were not able to verify your phone number. Create your account at https://michael-westbrooks.herokuapp.com/twilio-signup\n\n\nversion 1.0");
             res.writeHead(200, {'Content-Type': 'text/xml'});
             res.end(twiml.toString());
             return;
         } else {
             console.log(user); 
             if (body.startsWith('menu')) { // Show menu items
-                twiml.message("TEXT any of the following menu options: \n\nBOOK \nDELETE \nAVAILABLE / AVAILABILITY \nCURRENT BOOKINGS \nMY VENUE \nMY RESERVATIONS \nHOW TO");
+                twiml.message("TEXT any of the following menu options: \n\nBOOK \nDELETE \nAVAILABLE / AVAILABILITY \nCURRENT BOOKINGS \nMY VENUE \nMY RESERVATIONS \nHOW TO\n\n\nversion 1.0");
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end(twiml.toString());
                 return
@@ -563,7 +563,7 @@ router.post('/receivedText', function(req, res) {
                 return
             } else {
                 console.log("No criteria met.");
-                twiml.message("Hello " + user.firstname + ". Welcome to Venue Management. To get started text MENU or text HOW TO.");
+                twiml.message("Hello " + user.firstname + ". Welcome to Venue Management. To get started text MENU or text HOW TO.\n\n\nversion 1.0");
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end(twiml.toString());
                 return
