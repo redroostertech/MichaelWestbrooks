@@ -1,0 +1,138 @@
+{ "retrieveCustomerResponse": {
+        "status" : "SUCCESS",
+        "myId" : "2302jtw0sh5on",
+        "profile" : {
+            "primaryInfo" : {
+                "isPublic" : "true",
+                "fullName" : "Abcd Efgh",
+                "phoneNumber" : {
+                    "countryCode" : "+1",
+                    "number" : "4045555678"
+                },
+                "email" : "abcd@gmail.com",
+                "profileImage" : {
+                    "media" : {
+                        "url" : "https://via.placeholder.com/150",
+                        "uploadDate" : new Date.toString
+                    }
+                }
+            },
+            "pushNotificationsOn" : "true",
+            "businessInfo" : {
+                "isPublic" : "true",
+                "name" : "Sample Business",
+                "type" : "LLC",
+                "address" : {
+                    "addressLine1" : "2 Test Lane",
+                    "addressLine2" : "Std. 3",
+                    "city": "Atlanta",
+                    "state": "Georgia",
+                    "stateAbbr": "GA",
+                    "zipCode": "30188"
+                }
+            },
+            "paymentInfo" : [
+                {
+                    "type" : "IN",
+                    "lastFour" : "x5555",
+                    "brand" : "Visa",
+                    "expir" : {
+                        "expirLeft": "01",
+                        "expirRight" : "22"
+                    },
+                    "nameOnCard" : "Abcd Efgh",
+                    "billingAddress" : {
+                        "addressLine1" : "2 Test Lane",
+                        "addressLine2" : "Std. 3",
+                        "city": "Atlanta",
+                        "state": "Georgia",
+                        "stateAbbr": "GA",
+                        "zipCode": "30188"
+                    },
+                    "shippingAddress" : {
+                        "isSameAsBilling" : "true",
+                        "addressObj" : {
+
+                        }
+                    }
+                }, {
+                    "type" : "OUT",
+                    "lastFour" : "x5678",
+                    "brand" : "Visa",
+                    "expir" : {
+                        "expirLeft": "01",
+                        "expirRight" : "22"
+                    },
+                    "nameOnCard" : "Abcd Efgh",
+                    "billingAddress" : {
+                        "addressLine1" : "2 Test Lane",
+                        "addressLine2" : "Std. 3",
+                        "city": "Atlanta",
+                        "state": "Georgia",
+                        "stateAbbr": "GA",
+                        "zipCode": "30188"
+                    },
+                    "automaticPayout" : "true"
+                }
+            ]
+        }, 
+        "menus" : [
+            {
+                "availability" : {
+                    "start" : "1/1/2019",
+                    "end": "1/30/2019"
+                },
+                "owner": "2302jtw0sh5on",
+                "menuImage" : {
+                    "media" : {
+                        "url" : "https://via.placeholder.com/150",
+                        "uploadDate" : new Date.toString
+                    }
+                },
+                "name" : "Sample Menu",
+                "description" : "",
+                "products" : [
+                    {
+                        "index" : "0",
+                        "refId" : "4j930jw490"
+                    },{
+                        "index" : "1",
+                        "refId" : "5j930jw490"
+                    },{
+                        "index" : "2",
+                        "refId" : "6j930jw490"
+                    }
+                ],
+                "createdDate" : new Date.toString,
+                "price": {
+                    "currency" : "USD",
+                    "priceLeft" : "13",
+                    "priceRight" : "00",
+                    "frequency" : "per"
+                }
+            }
+        ],
+        "products" : [
+            {
+                "productImage" : {
+                    "media" : {
+                        "url" : "https://via.placeholder.com/150",
+                        "uploadDate" : new Date.toString
+                    }
+                },
+                "name" : "Sample Poduct",
+                "description" : "",
+                "ingredients" : [
+                    
+                ],
+                "owner": "2302jtw0sh5on",
+                "createdDate" : new Date.toString,
+                "price": {
+                    "currency" : "USD",
+                    "priceLeft" : "13",
+                    "priceRight" : "00",
+                    "frequency" : "per"
+                } 
+            }
+        ]
+    }

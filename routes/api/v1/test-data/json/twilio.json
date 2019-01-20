@@ -1,0 +1,22 @@
+/* Sample Webhook request from Twilio */
+{ 
+    "ToCountry": "US",
+    "ToState": "NY",
+    "SmsMessageSid": "SM7f15deffbf9b8f04f5bf8298a98af1a3",
+    "NumMedia": "0",
+    "ToCity": "NEW YORK CITY",
+    "FromZip": "08899",
+    "SmsSid": "SM7f15deffbf9b8f04f5bf8298a98af1a3",
+    "FromState": "NJ",
+    "SmsStatus": "received",
+    "FromCity": "METUCHEN",
+    "Body": "Here\"s another response",
+    "FromCountry": "US",
+    "To": "+19292035343",
+    "ToZip": "",
+    "NumSegments": "1",
+    "MessageSid": "SM7f15deffbf9b8f04f5bf8298a98af1a3",
+    "AccountSid": "AC6a5aa06f9e8e365500e6e3b51fa86a5b",
+    "From": "+19082178274",
+    "ApiVersion": "2010-04-01" 
+}

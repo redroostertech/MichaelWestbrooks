@@ -1,15 +1,16 @@
-const express       = require('express');
-const router        = express.Router();
-const main          = require('../../../app.js');
-const bodyParser    = require('body-parser');
-const path          = require('path');
-const session       = require('client-sessions');
-const ok            = require('async');
-const randomstring  = require('randomstring');
-const formidable    = require('formidable');
-const _             = require('underscore');
-const mime          = require('mime');
-const configs       = require('../../../configs');
+const express           = require('express');
+const router            = express.Router();
+const main              = require('../../../app.js');
+const bodyParser        = require('body-parser');
+const path              = require('path');
+const session           = require('client-sessions');
+const ok                = require('async');
+const randomstring      = require('randomstring');
+const formidable        = require('formidable');
+const _                 = require('underscore');
+const mime              = require('mime');
+const configs           = require('../../../configs');
+const twilioFunctions   = require('../../functions/twilioFunctions.js');
 
 router.use(bodyParser.urlencoded({
     extended: true
@@ -33,7 +34,7 @@ router.post('/contactform', function(req, res) {
 
     main.firebase.firebase_realtime_db(function(reference) {
         if (!reference) { 
-            return console.log("No reference availale"); 
+            return handleError(200, "No reference availale", res);
         } else {
             var contactRef = reference.ref('contactForm');
             var newContactRef = contactRef.push();
@@ -53,18 +54,7 @@ router.post('/contactform', function(req, res) {
             }).catch(function (error) {
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                res.status(200).json({
-                    "status": 200,
-                    "success": {
-                        "result": false,
-                        "message": null
-                    },
-                    "data": null,
-                    "error": {
-                        "code": errorCode,
-                        "message": errorMessage
-                    }
-                });
+                handleError(errorCode, errorMessage, res);
             });
         }
     });
@@ -80,140 +70,10 @@ router.post('/signup', function(req, res) {
         venue: req.body.venue,
         _createdAt: new Date(),
     };
-    if (req.body.password !== req.body.confirmpassword) { return false }
-    main.firebase.firebase_auth(function(auth) {
-        auth.createUserWithEmailAndPassword(req.body.emailaddress, req.body.confirmpassword).then(function () {
-
-            auth.onAuthStateChanged(function (user) {
-                if (user) {
-
-                    main.firebase.firebase_realtime_db(function(reference) {
-                        if (!reference) { 
-                            res.status(200).json({
-                                "status": 200,
-                                "success": {
-                                    "result": false,
-                                    "message": null
-                                },
-                                "data": null,
-                                "error": {
-                                    "code": 200,
-                                    "message": "No reference availale",
-                                }
-                            });
-                        } else {
-                            reference.ref('venue-management/phonenumbers/').orderByChild("number").equalTo('+' + req.body.countrycode + req.body.phonenumber).once('value').then(function(snapshot) {
-
-                                if (snapshot.val() !== null) {
-                                    return res.status(200).json({
-                                        "status": 200,
-                                        "success": {
-                                            "result": false,
-                                            "message": null
-                                        },
-                                        "data": null,
-                                        "error": {
-                                            "code": 200,
-                                            "message": "Phone number already exists. Please use another email/phone combo."
-                                        }
-                                    });
-                                }
-
-                                var userRef = reference.ref('venue-management/users');
-                                var newUserRef = userRef.push();
-                                newUserRef.set(data).then(function(ref) {
-                                    var phoneRef = reference.ref('venue-management/phonenumbers');
-                                    var newPhoneRef = phoneRef.push();
-                                    newPhoneRef.set({ 'number': '+' + req.body.countrycode + req.body.phonenumber }).then(function(ref) {
-                                        
-                                        main.twilioClient.messages.create({
-                                            body: "Thank you for joining venue management.",
-                                            to: '+' + req.body.countrycode + req.body.phonenumber,
-                                            from: '+19292035343'
-                                        })
-                                        .then((message) => validateResponse(message, res))
-                                        .catch(error => handleError(error, res));
-
-                                        res.status(200).json({
-                                            "status": 200,
-                                            "success": {
-                                                "result": true,
-                                                "message": "Thank you for sending me a message. I will get back to you shortly."
-                                            },
-                                            "data": null,
-                                            "error": {
-                                                "code": null,
-                                                "message": null
-                                            }
-                                        });
-                                    }).catch(function (error) {
-                                        var errorCode = error.code;
-                                        var errorMessage = error.message;
-                                        res.status(200).json({
-                                            "status": 200,
-                                            "success": {
-                                                "result": false,
-                                                "message": null
-                                            },
-                                            "data": null,
-                                            "error": {
-                                                "code": errorCode,
-                                                "message": errorMessage
-                                            }
-                                        });
-                                    });
-                                }).catch(function (error) {
-                                    var errorCode = error.code;
-                                    var errorMessage = error.message;
-                                    res.status(200).json({
-                                        "status": 200,
-                                        "success": {
-                                            "result": false,
-                                            "message": null
-                                        },
-                                        "data": null,
-                                        "error": {
-                                            "code": errorCode,
-                                            "message": errorMessage
-                                        }
-                                    });
-                                });
-                            });
-                        }
-                    });
-                    
-                } else {
-                    res.status(200).json({
-                        "status": 200,
-                        "success": {
-                            "result": false,
-                            "message": null
-                        },
-                        "data": null,
-                        "error": {
-                            "code": 200,
-                            "message": "Something went wrong. Please try again."
-                        }
-                    });
-                }
-            });
-        }).catch(function (error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            res.status(200).json({
-                "status": 200,
-                "success": {
-                    "result": false,
-                    "message": null
-                },
-                "data": null,
-                "error": {
-                    "code": errorCode,
-                    "message": errorMessage
-                }
-            });
-        })
-    });
+    if (req.body.password !== req.body.confirmpassword) { 
+        return handleError(200, "Passwords do not match.", res);
+    }
+    twilioFunctions.signup(data, res);
 });
 
 router.post('/signin', function(req, res) {
@@ -221,11 +81,8 @@ router.post('/signin', function(req, res) {
     main.firebase.firebase_auth(function(auth) {
         auth.signInWithEmailAndPassword(req.body.emailaddress, req.body.password)
         .then(function () {
-
-            //  Login successful.
             auth.onAuthStateChanged(function (user) {
                 if (user) {
-                    
                     main.firebase.firebase_realtime_db(function(reference) {
                         if (!reference) { 
                             res.redirect('../admin');
@@ -253,18 +110,10 @@ router.post('/signin', function(req, res) {
 
 router.post('/sendText', function(req,res){
     console.log(req.body);
-    main.twilioClient.messages.create({
-        body: req.body.message,
-        to: req.body.recipient,
-        from: '+19292035343'
-    })
-    .then((message) => validateResponse(message, res))
-    .catch(error => handleError(error, res));
+    twilioFunctions.sendText(req.body.recipient, req.body.message, res);
 });
 
 router.post('/receivedText', function(req, res) {
-
-    //console.log(req.body);
     var twiml = new main.twilio.twiml.MessagingResponse();
     var body = req.body.Body.toLowerCase();
 
@@ -293,7 +142,7 @@ router.post('/receivedText', function(req, res) {
                     res.end(twiml.toString());
                     return
                 } else {
-                    twiml.message("Use the HOW TO command to learn how to use this system. Available commands are as follows: \n\nHOW TO BOOK");
+                    twiml.message("Use the HOW TO command to learn how to use this system. Available commands are as follows: \n\nHOW TO BOOK \n\nHOW TO DELETE BOOKING");
                     res.writeHead(200, {'Content-Type': 'text/xml'});
                     res.end(twiml.toString());
                     return
@@ -304,6 +153,7 @@ router.post('/receivedText', function(req, res) {
                         twiml.message("Server request was not successful. Please try again later.");
                         res.writeHead(200, {'Content-Type': 'text/xml'});
                         res.end(twiml.toString());
+                        return
                     } else {
                         retrieveFor('venues', 'venueID', user.venue, function(success, venues) {
                             var text = 'Sections already booked include: \n\n';
@@ -682,6 +532,10 @@ router.post('/createvenue', function(req, res) {
     });
 });
 
+router.get('/getVenues', function(req, res) {
+    twilioFunctions.getVenues();
+})
+
 router.get('/deletevenue/:id', function(req, res) {
     main.firebase.firebase_realtime_db(function(reference) {
         if (!reference) { 
@@ -753,49 +607,18 @@ router.post('/createApp', function(req, res) {
 });
 
 router.get('/getApp.json', function(req,res) {
-    res.sendFile(path.join(main.basePathRoutes, '/api/v1/app.json'));
+    res.sendFile(path.join(main.basePathRoutes, '/api/v1/test-data/json/app.json'));
 });
 
 router.get('/getPages.json', function(req,res) {
-    res.sendFile(path.join(main.basePathRoutes, '/api/v1/pagesconfiguration.json'));
+    res.sendFile(path.join(main.basePathRoutes, '/api/v1/test-data/json/pagesconfiguration.json'));
 });
 
 router.get('/getApp.json', function(req, res) {
-    res.sendFile(path.join(main.basePathRoutes, '/api/v1/mvpguruconfig.json'));
+    res.sendFile(path.join(main.basePathRoutes, '/api/v1/test-data/json/mvpguruconfig.json'));
 });
 
-function validateResponse(message, res) {
-    console.log(message)
-    if (message.sid === null) {
-        res.status(200).json({
-            "status": 200,
-            "success": {
-                "result": false,
-                "message": null
-            },
-            "data": null,
-            "error": {
-                "code": 200,
-                "message": "There was an error sending text."
-            }
-        });
-    } else {
-        res.status(200).json({
-            "status": 200,
-            "success": {
-                "result": true,
-                "message": "You successfully sent a text via twilio."
-            },
-            "data": null,
-            "error": {
-                "code": null,
-                "message": null
-            }
-        });
-    }
-}
-
-function handleError(error, res){
+function handleError(code, error, res){
     res.status(200).json({
         "status": 200,
         "success": {
@@ -804,7 +627,7 @@ function handleError(error, res){
         },
         "data": null,
         "error": {
-            "code": 200,
+            "code": code,
             "message": "There was an error sending text.",
             "data": error
         }
@@ -863,56 +686,6 @@ function addAppInfo(reference, id, data, callback) {
     });
 }
 
-function retrieve(endpoint, callback) {
-    main.firebase.firebase_realtime_db(function(reference) {
-        if (!reference) { 
-            return callback(false, null);
-        } else {
-            reference.ref('venue-management/'+endpoint+'/').once('value').then(function(snapshot) {
-                if (snapshot.val() === null) {
-                    return callback(false, null);
-                } else {
-                    const data = snapshot.val() || null;
-                    if (data) {
-                        return callback(true, data);
-                    }
-                    return callback(false, null);
-                }
-            }).catch(function (error) {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                console.log(errorMessage);
-                return callback(false, null);
-            });
-        }
-    });
-}
-
-function retrieveWith(key, endpoint, callback) {
-    main.firebase.firebase_realtime_db(function(reference) {
-        if (!reference) { 
-            return callback(false, null);
-        } else {
-            reference.ref('venue-management/'+endpoint).child(key).once('value').then(function(snapshot) {
-                if (snapshot.val() === null) {
-                    return callback(false, null);
-                } else {
-                    const data = snapshot.val() || null;
-                    if (data) {
-                        return callback(true, data);
-                    }
-                    return callback(false, null);
-                }
-            }).catch(function (error) {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                console.log(errorMessage);
-                return callback(false, null);
-            });
-        }
-    });
-}
-
 function retrieveFor(endpoint, orderedBy, value, callback) {
     main.firebase.firebase_realtime_db(function(reference) {
         if (!reference) { 
@@ -939,26 +712,3 @@ function retrieveFor(endpoint, orderedBy, value, callback) {
 }
 
 module.exports = router;
-
-//  Sample Webhook request from Twilio
-/*{ 
-    ToCountry: 'US',
-    ToState: 'NY',
-    SmsMessageSid: 'SM7f15deffbf9b8f04f5bf8298a98af1a3',
-    NumMedia: '0',
-    ToCity: 'NEW YORK CITY',
-    FromZip: '08899',
-    SmsSid: 'SM7f15deffbf9b8f04f5bf8298a98af1a3',
-    FromState: 'NJ',
-    SmsStatus: 'received',
-    FromCity: 'METUCHEN',
-    Body: 'Here\'s another response',
-    FromCountry: 'US',
-    To: '+19292035343',
-    ToZip: '',
-    NumSegments: '1',
-    MessageSid: 'SM7f15deffbf9b8f04f5bf8298a98af1a3',
-    AccountSid: 'AC6a5aa06f9e8e365500e6e3b51fa86a5b',
-    From: '+19082178274',
-    ApiVersion: '2010-04-01' 
-}*/
