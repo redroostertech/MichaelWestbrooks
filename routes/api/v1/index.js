@@ -117,6 +117,9 @@ router.post('/receivedText', function(req, res) {
     var twiml = new main.twilio.twiml.MessagingResponse();
     var body = req.body.Body.toLowerCase();
 
+    twilioFunctions.receivedText(twiml, body, req.body.From, res);
+
+    /*
     verify(req.body.From, function(success, user) {
         if (!success) {
             twiml.message("Welcome to Venue Management. We were not able to verify your phone number. Create your account at https://michael-westbrooks.herokuapp.com/twilio-signup\n\n\nversion 1.0");
@@ -419,7 +422,7 @@ router.post('/receivedText', function(req, res) {
                 return
             }
         }
-    })
+    });*/
 });
 
 router.post('/createvenue', function(req, res) {
