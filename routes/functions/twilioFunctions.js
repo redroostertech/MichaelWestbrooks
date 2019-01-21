@@ -146,20 +146,6 @@ function loadView(name, success, data, error, res) {
     });
 }
 
-
-function receivedText(twiml, text, from, res) {
-    retrieveFor('venue-management', 'users', 'phone', from, function(success, error, data) {
-        if (!success) {
-            twiml.message("Welcome to Venue Management. We were not able to verify your phone number. Create your account at https://michael-westbrooks.herokuapp.com/twilio-signup\n\n\nversion 1.0");
-            res.writeHead(200, {'Content-Type': 'text/xml'});
-            res.end(twiml.toString());
-            return;
-        } else {
-
-        }
-    });
-}
-
 module.exports = {
 
     signup: function(data, res) {
@@ -288,11 +274,265 @@ module.exports = {
                 res.end(twiml.toString());
                 return;
             } else {
-                twiml.message("Welcome to Venue Management. We were not able to verify your phone number. Create your account at https://michael-westbrooks.herokuapp.com/twilio-signup\n\n\nversion 1.0");
-                res.writeHead(200, {'Content-Type': 'text/xml'});
-                res.end(twiml.toString());
-                return;
+                processReceivedText(twil, text, from, res);
             }
         });
+    }
+}
+
+var genericTextFailure = "Server request was not successful. Please try again later.";
+
+function sentTextResponse(res, twiml, text) {
+    twiml.message(text);
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+}
+
+function processReceivedText(twiml, text, from, res) {
+    if (body.startsWith('menu')) { // Show menu items
+        sendTextResponse(res, twiml, "TEXT any of the following menu options: \n\nBOOK \nDELETE \nAVAILABLE / AVAILABILITY \nCURRENT BOOKINGS \nMY VENUE \nMY RESERVATIONS \nHOW TO\n\n\nversion 1.0");
+        return
+    } else if (body.startsWith('how to')) {
+        if (body.includes('book')) { //  This is a request to learn how to book
+            sendTextResponse(res, twiml, "To book text BOOK SECTION with the section number and the person's name. For example, to book section 1 for Tracy Adams text the following: \n\nBOOK SECTION 1 for Tracy Adams");
+            return
+        } else if (body.includes('delete') || body.includes('edit booking')) { //  This is a request to learn how to book
+            sendTextResponse(res, twiml, "To edit one of your bookings text EDIT SECTION with the section number followed by. For example, \n\n BOOK SECTION 1 \n\n to book section 1 at the venue you are assigned to.");
+            return
+        } else {
+            sendTextResponse(res, twiml, "Use the HOW TO command to learn how to use this system. Available commands are as follows: \n\nHOW TO BOOK \n\nHOW TO DELETE BOOKING");
+            return
+        }
+    } else if (body === 'current bookings') {             
+        retrieveFor('venues', 'venueID', user.venue, function(success, error, venues) {
+            if (error) { 
+                sendTextResponse(res, twiml, genericTextFailure);
+                return
+            } else {
+                var text = 'Sections already booked include: \n\n';
+                Object.keys(venues).forEach(function(venueKey) {
+                    var venue = venues[venueKey];
+                    var finished = _.after(parseInt(Object.keys(venue.sections).length), check);
+                    Object.keys(venue.sections).forEach(function(sectionKey) {
+                        var obj = venue.sections[sectionKey];
+                        if (obj.available === false) {
+                            text += 'Section ' + obj.sectionTitle + ' booked by ' + obj.owner.firstname + ' \n';
+                        }
+                        finished();
+                    });
+                });
+                function check(){
+                    sendTextResponse(res, twiml, text);
+                    return
+                }
+            }
+        });
+    } else if (body.startsWith('book')) {
+        if (body.includes('section')) { // This is a request to make a booking
+            var sectionTitle = body.match(/\d+/);
+            var sectionPatron = body.substring(body.indexOf('for') + 4);
+            if (sectionTitle === null) {
+                sendTextResponse(res, twiml, "You did not provide a section number. To view available sections, text AVAILABLE. To book, text BOOK SECTION with the section number. For example, \n\n BOOK SECTION 1 \n\n to book section 1 at the venue you are assigned to.");
+                return
+            } else {
+                retrieveFor('venues', 'venueID', user.venue, function(success, error, venues) {
+                    if (error) { 
+                        sendTextResponse(res, twiml, genericTextFailure);
+                        return;
+                    } else {
+                        Object.keys(venues).forEach(function(venueKey) {
+                            var venue = venues[venueKey];
+                            Object.keys(venue.sections).forEach(function(sectionKey) {
+                                var obj = venue.sections[sectionKey];
+                                console.log("Sections \n\n ------ \n\n" + obj.sectionTitle + ' ' + obj.available);
+                                console.log(sectionTitle);
+                                if (obj.sectionTitle.toString() === sectionTitle.toString() && obj.available === true) {
+                                    reference.ref('venue-management/venues/'+venueKey+'/sections/'+sectionKey).update({
+                                        available: false,
+                                        owner: user,
+                                        patron: {
+                                            name: sectionPatron
+                                        }
+                                    }).then(function(snapshot) {
+                                        sendTextResponse(res, twiml, "You have booked section " + obj.sectionTitle + " at " + venue.venueName + " Thank you for the booking.");
+                                        return;
+                                    }).catch(function (error) {
+                                        sendTextResponse(res, twiml, "There was an error with your booking. Please try again.");
+                                        return;
+                                    });                                                
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+            return;
+        } else {
+            sendTextResponse(res, twiml, "You did not provide a section number. To view available sections, text AVAILABLE. To book, text BOOK SECTION with the section number. For example, \n\n BOOK SECTION 1 \n\n to book section 1 at the venue you are assigned to.");
+            return
+        }
+    } else if (body.startsWith('delete')) { 
+        if (body.includes('section')) { // This is a request to make a booking
+            var sectionTitle = body.match(/\d+/);
+            if (sectionTitle === null) {
+                sendTextResponse(res, twiml, "You did not provide a section number. To view available sections, text AVAILABLE. To book, text BOOK SECTION with the section number. For example, \n\n BOOK SECTION 1 \n\n to book section 1 at the venue you are assigned to.");
+                return
+            } else {
+                if (error) { 
+                    sendTextResponse(res, twiml, genericTextFailure);
+                    return;
+                } else {
+                    if (error) { 
+                        sendTextResponse(res, twiml, genericTextFailure);
+                        return;
+                    } else {
+                        retrieveFor('venues', 'venueID', user.venue, function(success, error, venues) {
+                            if (error) { 
+                                sendTextResponse(res, twiml, genericTextFailure);
+                                return;
+                            } else {
+                                var deletionSuccess = false;
+                                var venueName = "";
+                                Object.keys(venues).forEach(function(venueKey) {
+                                    var venue = venues[venueKey];
+                                    var finished = _.after(parseInt(Object.keys(venue.sections).length), check);
+                                    Object.keys(venue.sections).forEach(function(sectionKey) {
+                                        var obj = venue.sections[sectionKey];
+                                        if (typeof obj.owner !== 'undefined') {
+                                            if (obj.sectionTitle.toString() === sectionTitle.toString() && obj.available === false && obj.owner.phone.toString() === req.body.From.toString()) {
+                                                reference.ref('venue-management/venues/'+venueKey+'/sections/'+sectionKey).update({
+                                                    available: true,
+                                                    owner: null,
+                                                    patron: null
+                                                });   
+                                                deletionSuccess = true;           
+                                                venueName = venue.venueName;                                  
+                                            }
+                                        }
+                                        finished();
+                                    });
+                                });
+                                function check(){ 
+                                    if (deletionSuccess) {
+                                        sendTextResponse(res, twiml, "You deleted your booking for section " + sectionTitle + " at " + venueName + ". Thank you for the update.");
+                                        return;
+                                    } else {
+                                        sendTextResponse(res, twiml, "You did not provide a section number for a reservation you created.\n\nText MY RESERVATIONS to see the reservations you created.");
+                                        return
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        } else {
+            sendTextResponse(res, twiml, "You did not provide a section number. To view available sections, text AVAILABLE. To book, text BOOK SECTION with the section number. For example, \n\n BOOK SECTION 1 \n\n to book section 1 at the venue you are assigned to.");
+            return
+        }
+    } else if (body === 'edit') { 
+        sendTextResponse(res, twiml, "You cannot edit a booking at this time.");
+        return
+    } else if (body.includes('my')) {
+        if (body.includes('reservations') || body.includes('bookings')) {
+            main.firebase.firebase_realtime_db(function(reference) {
+                if (!reference) { 
+                    sendTextResponse(res, twiml, genericTextFailure);
+                    return;
+                } else {
+                    retrieveFor('venues', 'venueID', user.venue, function(success, venues) {
+                        var text = 'My reservations include: \n\n';
+                        Object.keys(venues).forEach(function(venueKey) {
+                            var venue = venues[venueKey];
+                            // Object.keys(venue.images).forEach(function(imageKey){
+                            //     var obj = venue.images[imageKey];
+                            //     text += 'View floorplan for '+ venue.venueName +' at: ' + obj + '\n\n';
+                            // });
+                            var finished = _.after(parseInt(Object.keys(venue.sections).length), check);
+                            Object.keys(venue.sections).forEach(function(sectionKey) {
+                                var obj = venue.sections[sectionKey];
+                                console.log("Sections \n\n ------ \n\n" + obj.sectionTitle + ' ' + obj.available);
+                                if (typeof obj.owner !== 'undefined') {
+                                    console.log(obj.owner);
+                                    if (obj.owner.phone === user.phone) {
+                                        text += 'Section ' + obj.sectionTitle + '\n';
+                                    }
+                                }
+                                finished();
+                            });
+                        });
+                        function check(){
+                            sendTextResponse(res, twiml, text + "\nText MY VENUE to view the floorplan. Text AVAILABILITY to view available sections.");
+                            return;
+                        }
+                    });
+                }
+            });
+            return;
+        } else if (body.includes('venue')) {
+            main.firebase.firebase_realtime_db(function(reference) {
+                if (!reference) { 
+                    sendTextResponse(res, twiml, genericTextFailure);
+                    return;
+                } else {
+                    retrieveFor('venues', 'venueID', user.venue, function(success, venues) {
+                        if (success ){ 
+                            Object.keys(venues).forEach(function(venueKey) {
+                                var venue = venues[venueKey];
+                                var text = "This week you are assigned to " + venue.venueName + " in " + venue.venueCity + ". \n\n";
+                                Object.keys(venue.images).forEach(function(imageKey){
+                                    var obj = venue.images[imageKey];
+                                    text += 'View floorplan for '+ venue.venueName +' at: ' + obj + '\n\n';
+                                });
+                                sendTextResponse(res, twiml, text + "\nText MY VENUE to view the floorplan. Text AVAILABILITY to view available sections.");
+                                return;
+                            });
+                        } else {
+                            sendTextResponse(res, twiml, "There was an error. Please try again.");
+                            return;
+                        }
+                    });
+                }
+            });
+            return;
+        } else {
+            sendTextResponse(res, twiml, "You did not provide a valid command. Text MY BOOKINGS to see the bookings you made. Text MY VENUE to see what venue you are assigned to.");
+            return
+        }
+    } else if (body.includes('available') || body.includes('availability')) { 
+        main.firebase.firebase_realtime_db(function(reference) {
+            if (!reference) { 
+                sendTextResponse(res, twiml, genericTextFailure);
+                return;
+            } else {
+                retrieveFor('venues', 'venueID', user.venue, function(success, venues) {
+                    var text = 'Available reservations include: \n\n';
+                    Object.keys(venues).forEach(function(venueKey) {
+                        var venue = venues[venueKey];
+                        Object.keys(venue.images).forEach(function(imageKey){
+                            var obj = venue.images[imageKey];
+                            text += 'View floorplan for '+ venue.venueName +' at: ' + obj + '\n\n';
+                        });
+                        var finished = _.after(parseInt(Object.keys(venue.sections).length), check);
+                        Object.keys(venue.sections).forEach(function(sectionKey) {
+                            var obj = venue.sections[sectionKey];
+                            if (obj.available === true) {
+                                text += 'Section ' + obj.sectionTitle + '\n';
+                            }
+                            finished();
+                        });
+                    });
+                    function check(){
+                        sendTextResponse(res, twiml, text);
+                        return
+                    }
+                });
+            }
+        });
+        return
+    } else {
+        console.log("No criteria met.");
+        sendTextResponse(res, twiml, "Hello " + user.firstname + ". Welcome to Venue Management. To get started text MENU or text HOW TO.\n\n\nversion 1.0");
+        return
     }
 }
