@@ -240,7 +240,7 @@ module.exports = {
                             //     venue = data;
                             //     venue.key = id;
                             // }
-                            res.redirect('../../../venuemanagement//twilio-view-venues');
+                            res.redirect('../../../venuemanagement/twilio-view-venues');
                         });
                     } else {
                         loadViewSignin(200, null, genericEmptyError, res);
