@@ -105,11 +105,8 @@ function retrieveFor (node, endpoint, orderedBy, value, callback) {
                 if (snapshot.val() === null) {
                     return callback(genericFailure, genericError , null);
                 } else {
-                    const data = snapshot.val() || null;
-                    if (data) {
-                        return callback(genericSuccess, null, data);
-                    }
-                    return callback(genericFailure, null, data);
+                    var data = snapshot.val();
+                    return callback(genericSuccess, null, data);
                 }
             }).catch(function (error) {
                 return callback(genericFailure, error, null);
@@ -396,7 +393,7 @@ function processReceivedText(user, twiml, body, from, res) {
             var sectionTitle = body.match(/\d+/);
             var sectionPatron = body.substring(body.indexOf('for') + 4);
             if (sectionTitle === null) {
-                sendTextResponse(res, twiml, "You did not provide a section number and patron name. \n\nTo view available sections, text AVAILABLE. \n\nTo book a section text BOOK SECTION with the section number and the person's name. For example, to book section 1 for Tracy Adams text the following: \n\nBOOK SECTION 1 for Tracy Adams");
+                sendTextResponse(res, twiml, "You did not provide a section number and patron name.\n\nTo view available sections, text AVAILABLE.\n\nTo book a section text BOOK SECTION with the section number and the patron's name. For example, to book section 1 for Tracy Adams text the following:\n\nBOOK SECTION 1 for Tracy Adams\n\nto book section 1 for Tracy Adams at the venue you are assigned to.");
                 return
             } else {
                 retrieveFor('venue-management', 'venues', 'venueID', user.venue, function(success, error, venues) {
@@ -436,7 +433,7 @@ function processReceivedText(user, twiml, body, from, res) {
             }
             return;
         } else {
-            sendTextResponse(res, twiml, "You did not provide a section number. To view available sections, text AVAILABLE. To book, text BOOK SECTION with the section number. For example, \n\n BOOK SECTION 1 \n\n to book section 1 at the venue you are assigned to.");
+            sendTextResponse(res, twiml, "You did not provide a section number and patron name.\n\nTo view available sections, text AVAILABLE.\n\nTo book a section text BOOK SECTION with the section number and the patron's name. For example, to book section 1 for Tracy Adams text the following:\n\nBOOK SECTION 1 for Tracy Adams\n\nto book section 1 for Tracy Adams at the venue you are assigned to.");
             return
         }
     } else if (body.startsWith('delete')) { 
@@ -568,6 +565,7 @@ function processReceivedText(user, twiml, body, from, res) {
             return
         }
     } else if (body.includes('available') || body.includes('availability')) { 
+        console.log("Availability is being started.");
         main.firebase.firebase_realtime_db(function(reference) {
             if (!reference) { 
                 sendTextResponse(res, twiml, genericTextFailure);
@@ -575,12 +573,13 @@ function processReceivedText(user, twiml, body, from, res) {
             } else {
                 retrieveFor('venue-management', 'venues', 'venueID', user.venue, function(success, venues) {
                     var text = 'Available reservations include: \n\n';
+                    console.log(venues);
                     Object.keys(venues).forEach(function(venueKey) {
                         var venue = venues[venueKey];
-                        Object.keys(venue.images).forEach(function(imageKey){
-                            var obj = venue.images[imageKey];
-                            text += 'View floorplan for '+ venue.venueName +' at: ' + obj + '\n\n';
-                        });
+                        // Object.keys(venue.images).forEach(function(imageKey){
+                        //     var obj = venue.images[imageKey];
+                        //     text += 'View floorplan for '+ venue.venueName +' at: ' + obj + '\n\n';
+                        // });
                         var finished = _.after(parseInt(Object.keys(venue.sections).length), check);
                         Object.keys(venue.sections).forEach(function(sectionKey) {
                             var obj = venue.sections[sectionKey];
