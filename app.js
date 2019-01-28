@@ -39,9 +39,6 @@ if (cluster.isMaster) {
     var oneDay          = 86400000;
     var port            = process.env.PORT || configs.port;
     var siteTitle       = process.env.SITE_TITLE || configs.siteTitle;
-    var basePath        = configs.base;
-    var basePathRoutes  = configs.baseRoutes;
-    var basePathViews   = configs.baseViews;
 
     //  MARK:- Setup App.
     var app = express();
@@ -68,8 +65,8 @@ if (cluster.isMaster) {
     var twilioClient = new twilio(configs.twilioAccountSid, configs.twilioAuthToken);
 
     //  MARK:- Set up routes.
-    var mainController = require(path.join(basePathRoutes, '/main/index.js'));
-    var apiController = require(path.join(basePathRoutes, '/api/v1/index.js'));
+    var mainController = require(path.join(configs.basePathRoutes, '/main/index.js'));
+    var apiController = require(path.join(configs.basePathRoutes, '/api/v1/index.js'));
     
     //  MARK:- Use Routes
     app.use('/', mainController);
@@ -107,10 +104,6 @@ if (cluster.isMaster) {
     }
 
     module.exports.port = port;
-    module.exports.configs = configs;
-    module.exports.basePath = configs.base;
-    module.exports.basePathRoutes = configs.baseRoutes;
-    module.exports.basePathViews = configs.baseViews;
     module.exports.firebase = firebase;
     module.exports.cache = nodeCache;
     module.exports.twilio = twilio;

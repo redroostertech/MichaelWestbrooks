@@ -5,10 +5,10 @@ const path          = require('path');
 module.exports = {
     port: 3000,
     siteTitle: 'Michael Westbrooks II',
-    base: __dirname,
+    basePath: __dirname,
     basePublic: path.join(__dirname, '/public/'),
-    baseRoutes: path.join(__dirname, '/routes'),
-    baseViews: path.join(__dirname, '/views/'),
+    basePathRoutes: path.join(__dirname, '/routes/'),
+    basePathViews: path.join(__dirname, '/views/'),
     url: '',
     secret: '',
     nodemailUser: '',
