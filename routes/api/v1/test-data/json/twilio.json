@@ -1,4 +1,3 @@
-/* Sample Webhook request from Twilio */
 { 
     "ToCountry": "US",
     "ToState": "NY",

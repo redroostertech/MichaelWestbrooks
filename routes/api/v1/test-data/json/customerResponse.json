@@ -1,4 +1,5 @@
-{ "retrieveCustomerResponse": {
+{ 
+    "retrieveCustomerResponse": {
         "status" : "SUCCESS",
         "myId" : "2302jtw0sh5on",
         "profile" : {
@@ -13,7 +14,7 @@
                 "profileImage" : {
                     "media" : {
                         "url" : "https://via.placeholder.com/150",
-                        "uploadDate" : new Date.toString
+                        "uploadDate" : "2019-08-06T16:45:32+0000"
                     }
                 }
             },
@@ -86,7 +87,7 @@
                 "menuImage" : {
                     "media" : {
                         "url" : "https://via.placeholder.com/150",
-                        "uploadDate" : new Date.toString
+                        "uploadDate" : "2019-08-06T16:45:32+0000"
                     }
                 },
                 "name" : "Sample Menu",
@@ -103,7 +104,7 @@
                         "refId" : "6j930jw490"
                     }
                 ],
-                "createdDate" : new Date.toString,
+                "createdDate" : "2019-08-06T16:45:32+0000",
                 "price": {
                     "currency" : "USD",
                     "priceLeft" : "13",
@@ -117,7 +118,7 @@
                 "productImage" : {
                     "media" : {
                         "url" : "https://via.placeholder.com/150",
-                        "uploadDate" : new Date.toString
+                        "uploadDate" : "2019-08-06T16:45:32+0000"
                     }
                 },
                 "name" : "Sample Poduct",
@@ -126,7 +127,7 @@
                     
                 ],
                 "owner": "2302jtw0sh5on",
-                "createdDate" : new Date.toString,
+                "createdDate" : "2019-08-06T16:45:32+0000",
                 "price": {
                     "currency" : "USD",
                     "priceLeft" : "13",
