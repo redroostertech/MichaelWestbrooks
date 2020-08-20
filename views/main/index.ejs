@@ -142,6 +142,7 @@
                                 <div class="row content-grid-1" style="text-align: center">
                                 <div class="grid-item">
                                 <a href="index.html"><img style="border-radius: 50%;" src="main/images/resume/logo-alt-md.jpg" alt="Michael Westbrooks II Logo"/></a>
+                                <button id="share-image-test">Share Image Test</button>
                                 </div>
                                 <div class="grid-item">
                                 <h3 class="mb-mobile-80">My Skills.</h3>
@@ -780,6 +781,27 @@
                 var addressCheck = new RegExp( /^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/i );
 			    return addressCheck.test(email);
             }
+            
+            $('#share-image-test').on('click', function(e) {
+                e.preventDefault();
+                const shareData = {
+                    title: 'MDN',
+                    text: 'Learn web development on MDN!',
+                    url: 'https://developer.mozilla.org',
+                }
+                if (navigator.canShare && navigator.canShare({ files: filesArray })) {
+                    /*navigator.share({
+                      files: filesArray,
+                      title: 'Pictures',
+                      text: 'Our Pictures.',
+                    })*/
+                    navigator.share(shareData)
+                    .then(() => console.log('Share was successful.'))
+                    .catch((error) => console.log('Sharing failed', error));
+                } else {
+                    alert(`Your system doesn't support sharing files.`);
+                }                  
+            })
         </script>
     </body>
 </html>
