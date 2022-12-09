@@ -27,7 +27,7 @@
         "date-format": "^1.1.0",
         "ejs": "^2.5.7",
         "escape-html": "^1.0.3",
-        "express": "^4.16.3",
+        "express": "^4.17.3",
         "firebase": "^5.3.0",
         "firebase-admin": "^6.0.0",
         "formidable": "^1.1.1",
