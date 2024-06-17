@@ -1,0 +1,52 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - async > lodash:
+        patched: '2024-06-17T13:13:11.361Z'
+        id: SNYK-JS-LODASH-567746
+        path: async > lodash
+    - node-cache > lodash:
+        patched: '2024-06-17T13:13:11.361Z'
+        id: SNYK-JS-LODASH-567746
+        path: node-cache > lodash
+    - twilio > lodash:
+        patched: '2024-06-17T13:13:11.361Z'
+        id: SNYK-JS-LODASH-567746
+        path: twilio > lodash
+    - '@google-cloud/storage > async > lodash':
+        patched: '2024-06-17T13:13:11.361Z'
+        id: SNYK-JS-LODASH-567746
+        path: '@google-cloud/storage > async > lodash'
+    - image-cache > async > lodash:
+        patched: '2024-06-17T13:13:11.361Z'
+        id: SNYK-JS-LODASH-567746
+        path: image-cache > async > lodash
+    - firebase-admin > @google-cloud/storage > async > lodash:
+        patched: '2024-06-17T13:13:11.361Z'
+        id: SNYK-JS-LODASH-567746
+        path: firebase-admin > @google-cloud/storage > async > lodash
+    - firebase-admin > @google-cloud/firestore > google-gax > grpc > lodash:
+        patched: '2024-06-17T13:13:11.361Z'
+        id: SNYK-JS-LODASH-567746
+        path: firebase-admin > @google-cloud/firestore > google-gax > grpc > lodash
+    - firebase-admin > @google-cloud/firestore > google-gax > @grpc/proto-loader > lodash:
+        patched: '2024-06-17T13:13:11.361Z'
+        id: SNYK-JS-LODASH-567746
+        path: >-
+          firebase-admin > @google-cloud/firestore > google-gax >
+          @grpc/proto-loader > lodash
+    - firebase-admin > @google-cloud/storage > @google-cloud/common > google-auto-auth > async > lodash:
+        patched: '2024-06-17T13:13:11.361Z'
+        id: SNYK-JS-LODASH-567746
+        path: >-
+          firebase-admin > @google-cloud/storage > @google-cloud/common >
+          google-auto-auth > async > lodash
+    - firebase-admin > @google-cloud/storage > @google-cloud/common > split-array-stream > async > lodash:
+        patched: '2024-06-17T13:13:11.361Z'
+        id: SNYK-JS-LODASH-567746
+        path: >-
+          firebase-admin > @google-cloud/storage > @google-cloud/common >
+          split-array-stream > async > lodash
