@@ -23,16 +23,16 @@ if (cluster.isMaster) {
 
 // Code to run if we're in a worker process
 } else {
-    const express           = require('express');
-    const bodyParser        = require('body-parser');
-    const path              = require('path');
-    const session           = require('client-sessions');
-    const firebase          = require('./firebase.js');
-    const aws               = require('./aws.js');
-    const configs           = require('./configs');
-    const fs                = require('fs');
-    const NodeCache         = require('node-cache');
-    const twilio            = require('twilio');
+    let express           = require('express');
+    let bodyParser        = require('body-parser');
+    let path              = require('path');
+    let session           = require('client-sessions');
+    let firebase          = require('./firebase.js');
+    let aws               = require('./aws.js');
+    let configs           = require('./configs');
+    let fs                = require('fs');
+    let NodeCache         = require('node-cache');
+    let twilio            = require('twilio');
 
 
     //  MARK:- Setup additional variables

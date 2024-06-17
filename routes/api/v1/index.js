@@ -1,19 +1,19 @@
-const express                           = require('express');
-const router                            = express.Router();
-const main                              = require('../../../app');
-const bodyParser                        = require('body-parser');
-const path                              = require('path');
-const session                           = require('client-sessions');
-const ok                                = require('async');
-const randomstring                      = require('randomstring');
-const formidable                        = require('formidable');
-const _                                 = require('underscore');
-const mime                              = require('mime');
-const configs                           = require('../../../configs');
+let express                           = require('express');
+let router                            = express.Router();
+let main                              = require('../../../app');
+let bodyParser                        = require('body-parser');
+let path                              = require('path');
+let session                           = require('client-sessions');
+let ok                                = require('async');
+let randomstring                      = require('randomstring');
+let formidable                        = require('formidable');
+let _                                 = require('underscore');
+let mime                              = require('mime');
+let configs                           = require('../../../configs');
 
 //  Add projects below
-const michaelwestbrooksFunctions        = require('../../functions/michaelWestbrooksFunctions.js');
-const twilioFunctions                   = require('../../functions/twilioFunctions.js');
+let michaelwestbrooksFunctions        = require('../../functions/michaelWestbrooksFunctions.js');
+let twilioFunctions                   = require('../../functions/twilioFunctions.js');
 
 router.use(bodyParser.urlencoded({
     extended: true

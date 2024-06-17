@@ -1,17 +1,17 @@
-const express           = require('express');
-const router            = express.Router();
-const bodyParser        = require('body-parser');
-const dynamicAddresses  = require('country-state-city');
-const path              = require('path');
-const session           = require('client-sessions');
-const ok                = require('async');
-const randomstring      = require('randomstring');
-const formidable        = require('formidable');
-const _                 = require('underscore');
-const main              = require('../../app');
-const configs           = require('../../configs');
+let express           = require('express');
+let router            = express.Router();
+let bodyParser        = require('body-parser');
+let dynamicAddresses  = require('country-state-city');
+let path              = require('path');
+let session           = require('client-sessions');
+let ok                = require('async');
+let randomstring      = require('randomstring');
+let formidable        = require('formidable');
+let _                 = require('underscore');
+let main              = require('../../app');
+let configs           = require('../../configs');
 
-const leads             = require('../../routes/api/v1/test-data/json/igrushi-leads2018.json');
+let leads             = require('../../routes/api/v1/test-data/json/igrushi-leads2018.json');
 
 router.use(bodyParser.urlencoded({
     extended: true
